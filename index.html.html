@@ -1,0 +1,1080 @@
+<title>HANZT 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: periodic-table "H₂" tile identity over a graph-paper hero with rising hydrogen bubbles; cobalt ink + one flame cyan. Sticky nav, hash views. */
+:root{
+  --bg:#f3f6f8; --surface:#ffffff; --sunk:#e8eef3; --ink:#0d1b2a; --muted:#566576; --line:#d5dee6;
+  --accent:#1747c4; --accent-ink:#ffffff; --flame:#139fc4; --warn:#b26a00; --ok:#1e7f4f; --bad:#b4372f;
+  --c-keynote:#1747c4; --c-forum:#7a4bc0; --c-paper:#139fc4; --c-break:#8a96a3; --c-social:#b26a00; --c-ceremony:#1e7f4f;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:10px; --todo-bg:#ffe27a; --todo-ink:#3d2c00;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a1119; --surface:#111b26; --sunk:#0d1620; --ink:#e4ebf2; --muted:#8e9cad; --line:#223142;
+  --accent:#7099ff; --accent-ink:#06101f; --flame:#4fcbe8; --warn:#e9a845; --ok:#5cc58e; --bad:#f0827a;
+  --c-keynote:#7099ff; --c-forum:#b393f0; --c-paper:#4fcbe8; --c-break:#6c7a89; --c-social:#e9a845; --c-ceremony:#5cc58e; --todo-bg:#6b5300; --todo-ink:#fff3c4;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a1119; --surface:#111b26; --sunk:#0d1620; --ink:#e4ebf2; --muted:#8e9cad; --line:#223142;
+  --accent:#7099ff; --accent-ink:#06101f; --flame:#4fcbe8; --warn:#e9a845; --ok:#5cc58e; --bad:#f0827a;
+  --c-keynote:#7099ff; --c-forum:#b393f0; --c-paper:#4fcbe8; --c-break:#6c7a89; --c-social:#e9a845; --c-ceremony:#5cc58e; --todo-bg:#6b5300; --todo-ink:#fff3c4;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.75}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--flame);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;line-height:1.3;margin:0}
+h2{font-size:1.75rem} h3{font-size:1.15rem}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--flame)}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:14px;min-height:62px;position:relative}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex-shrink:0}
+.mini-tile{width:38px;height:38px;border:1.5px solid var(--ink);border-radius:4px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:1.2rem;position:relative;transition:transform .3s}
+.brand:hover .mini-tile{transform:rotate(-6deg)}
+.mini-tile small{position:absolute;top:1px;left:3px;font-family:var(--mono);font-size:.5rem;font-weight:500}
+.brand b{font-family:var(--mono);font-weight:500;letter-spacing:.04em}
+nav.main{display:flex;gap:1px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+nav.main a{padding:7px 10px;border-radius:6px;text-decoration:none;color:var(--muted);font-size:.9rem;white-space:nowrap;position:relative}
+nav.main a:hover{color:var(--ink);background:var(--sunk)}
+nav.main a[aria-current="page"]{color:var(--accent);font-weight:700}
+nav.main a[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:2px;background:var(--accent);border-radius:2px}
+.lang{border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px;padding:6px 10px;font-family:var(--mono);font-size:.8rem;cursor:pointer}
+.menu-btn{display:none;margin-left:auto;border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+@media (max-width:1180px){
+  .menu-btn{display:block}
+  nav.main{display:none;position:absolute;left:calc(-1*max(16px,env(safe-area-inset-left,0px)));right:calc(-1*max(16px,env(safe-area-inset-right,0px)));top:100%;background:var(--surface);border-bottom:1px solid var(--line);flex-direction:column;padding:8px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px))}
+  nav.main.open{display:flex}
+  nav.main a{padding:11px 12px}
+  nav.main a[aria-current="page"]::after{display:none}
+}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:
+  linear-gradient(var(--bg),transparent 35%),
+  repeating-linear-gradient(0deg,transparent 0 31px,var(--line) 31px 32px),
+  repeating-linear-gradient(90deg,transparent 0 31px,var(--line) 31px 32px);background-color:var(--bg)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;align-items:center;padding-block:52px 40px}
+.hero h1{font-size:clamp(1.8rem,4.2vw,3rem);font-weight:900}
+.hero .sub{font-size:1.1rem;color:var(--muted);margin-top:10px}
+.hero .en{font-family:var(--mono);font-size:.85rem;color:var(--muted);margin-top:14px}
+.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;margin-top:24px}
+.facts dt{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.facts dd{margin:0;min-width:0}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.95rem;border:1.5px solid var(--accent);color:var(--accent);background:var(--surface);cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 25%,transparent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:6px 12px;font-size:.85rem}
+.btn[aria-disabled="true"],.btn:disabled{border-color:var(--line);color:var(--muted);background:var(--sunk);cursor:not-allowed;font-weight:500;transform:none;box-shadow:none}
+.tile{aspect-ratio:1;max-width:100%;border:2.5px solid var(--ink);border-radius:8px;background:var(--surface);padding:20px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:10px 10px 0 var(--sunk);transition:transform .4s}
+.tile:hover{transform:rotate(-2deg) translateY(-4px)}
+.tile .row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.9rem}
+.tile .sym{font-family:var(--serif);font-weight:900;font-size:7.5rem;line-height:1}
+.tile .sym sub{font-size:2.6rem;color:var(--flame)}
+.tile .nm{font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.06em}
+@media (max-width:820px){.hero-in{grid-template-columns:1fr;gap:28px;padding-block:32px}.tile{width:220px}.tile .sym{font-size:5rem}}
+.ticker{position:relative;border-top:1px solid var(--line);background:var(--surface);display:flex;align-items:center;overflow:hidden}
+.ticker b{flex-shrink:0;font-size:.8rem;padding:8px 14px;background:var(--accent);color:var(--accent-ink);font-weight:700;z-index:1}
+.ticker-view{overflow:hidden;flex:1;min-width:0}
+.ticker-track{display:flex;width:max-content;gap:56px;padding:8px 28px;animation:tick 38s linear infinite;font-size:.9rem}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track a{color:var(--ink);text-decoration:none;white-space:nowrap}
+.ticker-track a:hover{color:var(--accent)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+main{padding-block:40px 64px}
+.view{display:grid;gap:44px}
+.head{display:grid;gap:6px}
+.head p{color:var(--muted);max-width:70ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;min-width:0}
+a.card{text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s;display:grid;gap:6px;align-content:start}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+a.card .go{color:var(--accent);font-size:.88rem;margin-top:6px}
+.card h3{margin-bottom:8px}
+.prose{max-width:72ch;display:grid;gap:12px}
+.prose ul{margin:0;padding-left:1.2em}
+.note{font-size:.85rem;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:1px 8px;border-radius:99px;border:1px solid currentColor;letter-spacing:.04em;vertical-align:2px;white-space:nowrap}
+.tag.tbd{color:var(--warn)} .tag.now{color:var(--ok)} .tag.past{color:var(--muted)} .tag.bad{color:var(--bad)}
+.ph{border:1.5px dashed var(--muted);border-radius:var(--r);background:repeating-linear-gradient(45deg,transparent 0 10px,var(--sunk) 10px 20px);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.85rem;padding:14px;min-height:120px;max-width:100%}
+.ph b{display:block;color:var(--ink);font-weight:500}
+.rv.in{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{transform:translateY(14px)}to{transform:none}}
+
+/* countdown + timeline */
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.cd div{background:var(--sunk);border-radius:8px;padding:10px 4px;text-align:center}
+.cd b{display:block;font-family:var(--mono);font-size:1.8rem;font-weight:500;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums}
+.cd span{font-size:.72rem;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0;display:grid;border-left:2px solid var(--line);margin-left:6px}
+.tl li{position:relative;padding:0 0 20px 24px;display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:4px 18px}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.tl li.past::before{border-color:var(--line);background:var(--line)}
+.tl li.now::before{background:var(--ok);border-color:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 25%,transparent)}
+.tl li.past .tl-d,.tl li.past .tl-l{color:var(--muted)}
+.tl-d{font-family:var(--mono);font-size:.88rem;font-variant-numeric:tabular-nums}
+.tl-d s{color:var(--muted)}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}}
+
+/* news */
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:4px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.newslist{display:grid;gap:12px}
+.news-item{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;background:var(--surface);display:grid;gap:4px}
+.news-item .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.news-item h3{font-family:var(--sans);font-size:1rem}
+.pin{color:var(--warn);font-weight:700}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:none;font:inherit;color:var(--muted);padding:10px 14px;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.panel{padding-top:24px;display:grid;gap:22px}
+
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.93rem}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;background:var(--sunk);font-size:.85rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.cur{background:color-mix(in srgb,var(--accent) 9%,transparent);font-weight:700}
+.star{border:0;background:none;cursor:pointer;font-size:1.05rem;color:var(--muted);padding:0 4px;line-height:1}
+.star[aria-pressed="true"]{color:var(--warn)}
+
+/* agenda */
+.ag{display:grid;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.ag-row{display:grid;grid-template-columns:130px 6px minmax(0,1fr);gap:16px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.ag-row:last-child{border-bottom:0}
+.ag-row.live{background:color-mix(in srgb,var(--ok) 10%,transparent)}
+.ag-bar{border-radius:3px}
+.ag-row .t{font-family:var(--mono);font-size:.88rem;color:var(--muted)}
+.ag-row .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+@media (max-width:560px){.ag-row{grid-template-columns:6px minmax(0,1fr)}.ag-row .t{grid-column:2}.ag-bar{grid-row:1/span 2}}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.toolbar input[type=search]{flex:1 1 240px;min-width:0}
+
+/* topics */
+.topic{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.code{font-family:var(--mono);font-weight:500;font-size:1.05rem;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;height:44px;display:grid;place-items:center}
+
+/* people, logos, sponsors */
+.person{display:grid;grid-template-columns:110px minmax(0,1fr);gap:18px;align-items:start}
+.person .ph{min-height:110px;aspect-ratio:1;padding:6px;font-size:.72rem}
+details{border-top:1px solid var(--line);padding-top:10px;margin-top:12px}
+details summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.9rem;list-style:none}
+details summary::before{content:"＋ ";font-family:var(--mono)}
+details[open] summary::before{content:"－ "}
+details > div{padding-top:10px;display:grid;gap:10px;font-size:.93rem}
+.logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.logos .ph{min-height:84px;font-size:.78rem}
+.org-group{display:grid;gap:10px}
+.org-group h3{font-size:.95rem;font-family:var(--sans);color:var(--muted);font-weight:500}
+.marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:18px;width:max-content;animation:tick 45s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee img{height:72px;width:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block}
+.faq-cat{display:grid;gap:4px}
+.faq details{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:14px 18px;margin:0}
+.faq details summary{color:var(--ink)}
+.faq details summary::before{color:var(--accent)}
+.faq .list{display:grid;gap:10px}
+
+/* forms */
+.form{display:grid;gap:16px}
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.field{display:grid;gap:6px;min-width:0;align-content:start}
+.field > label,.field > .lbl{font-weight:700;font-size:.9rem}
+.req::after{content:" *";color:var(--bad)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%;min-width:0}
+textarea{min-height:120px;resize:vertical}
+input[type=checkbox],input[type=radio]{width:auto;accent-color:var(--accent)}
+input:focus,select:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:8px}
+.seg label{border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;display:flex;gap:8px;align-items:flex-start;font-size:.9rem;background:var(--surface)}
+.seg label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.hint{font-size:.8rem;color:var(--muted)}
+.counter.over{color:var(--bad);font-weight:700}
+.msg{border-radius:var(--r);padding:14px 18px;border:1.5px solid}
+.msg.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.msg.err{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 8%,var(--surface))}
+.feebox{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;background:var(--sunk);border-radius:8px;padding:12px 16px}
+.feebox b{font-family:var(--mono);font-size:1.6rem;color:var(--accent);font-weight:500}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.78rem;font-weight:700;background:var(--sunk);color:var(--muted)}
+.pill.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}
+.pill.bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px}
+.stats div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.stats b{display:block;font-family:var(--mono);font-size:1.6rem;font-weight:500}
+table.staff{min-width:980px;font-size:.86rem}
+table.staff select,table.staff input{padding:5px 8px;font-size:.85rem}
+tr.dirty td{background:color-mix(in srgb,var(--warn) 9%,transparent)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;counter-reset:s}
+.steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.steps li::before{content:counter(s);font-family:var(--mono);color:var(--accent);font-size:1.4rem;display:block}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 14px;align-items:center}
+.kv dt{color:var(--muted);font-size:.88rem}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.copy{border:1px solid var(--line);background:none;color:var(--muted);border-radius:6px;font:inherit;font-size:.78rem;padding:3px 9px;cursor:pointer}
+.banner{border:1.5px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,var(--surface));border-radius:var(--r);padding:14px 18px}
+.banner.info{border-color:var(--flame);background:color-mix(in srgb,var(--flame) 9%,var(--surface))}
+.dl{display:flex;flex-wrap:wrap;gap:10px}
+.floor{display:grid;grid-template-columns:64px minmax(0,1fr);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.floor + .floor{margin-top:-1px}
+.floor b{display:grid;place-items:center;font-family:var(--mono);font-size:1.3rem;background:var(--sunk);border-right:1px solid var(--line)}
+.floor div{padding:14px 18px}
+.rooms{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.rooms span{font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+
+footer{border-top:1px solid var(--line);background:var(--surface);padding-block:32px;font-size:.88rem;color:var(--muted)}
+footer .wrap{display:grid;gap:12px}
+footer a{color:var(--muted)}
+.foot-org{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.foot-org b{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted);font-weight:500}
+.foot-org span{color:var(--ink)}
+.mapbox{position:relative;aspect-ratio:16/9;max-width:100%;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--sunk);display:grid;place-items:center;text-align:center;padding:16px}
+.mapbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (max-width:600px){.mapbox{aspect-ratio:4/3}}
+mark.todo{background:var(--todo-bg);color:var(--todo-ink);padding:0 4px;border-radius:3px;font-weight:700}
+.todo-pill{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--todo-bg);color:var(--todo-ink);border-radius:99px;padding:6px 14px;font-size:.82rem;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+@media (prefers-reduced-motion:reduce){.ticker-track,.marquee-track{animation:none}.rv.in{animation:none}.btn,.tile,a.card{transition:none}}
+</style>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#home"><span class="mini-tile"><small>22</small>H</span><b>HANZT 2027</b></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">選單</button>
+    <nav class="main" id="nav"></nav>
+    <button class="lang" id="langBtn">EN</button>
+  </div>
+</header>
+<div id="hero"></div>
+<main class="wrap"><div id="app"></div></main>
+<footer><div class="wrap" id="foot"></div></footer>
+<div class="todo-pill" id="todoPill" hidden></div>
+
+<script>
+/* =====================================================================
+   HANZT 2027 網站內容資料區 —— 網站上所有文字、日期、金額都在這裡改
+   ---------------------------------------------------------------------
+   怎麼改：
+   1. 用 VS Code 或記事本打開本檔，按 Ctrl+F 搜尋「待填」，逐一換成正式內容。
+      網頁上沒填的地方會用黃底標出〔待填〕，打開網站就知道哪裡還沒改。
+   2. 只改引號 "…" 裡面的字，不要刪掉引號、逗號、括號。
+   3. 日期一律寫 "YYYY-MM-DD"（例如 "2027-05-07"）。
+   4. 下載連結留空 "" 時，按鈕會自動顯示「準備中」。
+   5. {zh:"中文", en:"English"} 是中英兩種語言；只寫一個字串代表中英共用。
+   6. 每一區開頭的 [A]、[B]… 對應《內容修改指南》裡的章節。
+   ===================================================================== */
+const CONFIG = {
+
+  /* [A] 後端網址：Apps Script 部署網址；留空＝展示模式（不會真的送出） */
+  apiUrl: "",
+
+  /* [B] 會議基本資訊（首頁、頁首、頁尾、海報區都會用到） */
+  edition: 22, year: 2027, short: "HANZT 2027",
+  title: {zh:"2027 國際氫能應用與淨零科技研討會", en:"International Conference on Hydrogen Application and Net Zero Technologies"},
+  subtitle: {zh:"第二十二屆・技術論壇與學術研討會", en:"22nd edition · Technology Forum & Academic Conference"},
+  start: "2027-06-18", end: "2027-06-19", openTime: "09:00",
+  venue: {zh:"國立成功大學 光復校區 國際會議廳", en:"International Conference Hall, Kuang-Fu Campus, National Cheng Kung University"},
+  address: {zh:"臺南市東區大學路1號", en:"No. 1, Daxue Rd., East Dist., Tainan City, Taiwan"},
+  banquet: "〔待填〕晚宴地點",
+    showH2Car: true,   // 氫能車競賽：不辦就改成 false，整個頁面會消失
+
+  /* [C] 下載與外部連結（貼上 Google 雲端硬碟等分享網址；留空＝顯示「準備中」） */
+  links: {
+    sponsorForm:"",        // 贊助辦法與申請表
+    agendaPdf:"",          // 議程 PDF
+    handbook:"",           // 大會手冊
+    briefing:"",           // 行前通知
+    photos:"",             // 活動照片
+    awards:"",             // 得獎名單
+    templateZh:"", templateEn:"",               // 一般投稿範本（中／英）
+    templateStudentZh:"", templateStudentEn:"", // 學生競賽範本（中／英）
+    templatePoster:"",     // 海報張貼範本
+    copyright:"",          // 著作權授權書
+    h2carRegister:""       // 氫能車參賽報名表
+  },
+
+  /* [D] 重要日程（首頁時間軸、徵稿頁截止卡片）
+     tbd:true 會顯示「暫定」；確定後刪掉 tbd:true。
+     展延時加上 extendedTo:"新日期"，網頁會自動顯示「舊日期劃線 → 新日期」。 */
+  dates: [
+    {label:{zh:"論文徵稿開始",en:"Call for papers opens"}, start:"2027-03-01", tbd:true},
+    {label:{zh:"早鳥註冊",en:"Early-bird registration"}, start:"2027-03-01", end:"2027-05-31", tbd:true},
+    {label:{zh:"一般論文／海報投稿截止",en:"Oral & poster submission deadline"}, start:"2027-05-07", tbd:true, deadline:true},
+    {label:{zh:"學生論文競賽投稿截止",en:"Student competition deadline"}, start:"2027-05-21", tbd:true, deadline:true},
+    {label:{zh:"一般註冊（線上報名截止）",en:"Regular registration (online closes)"}, start:"2027-06-01", end:"2027-06-17", tbd:true},
+    {label:{zh:"大會舉行／現場註冊",en:"Conference & on-site registration"}, start:"2027-06-18", end:"2027-06-19"}
+  ],
+
+  /* [E] 最新消息（首頁消息列表與頁首跑馬燈）
+     cat 分類：general 公告／cfp 徵稿／reg 註冊／agenda 議程／notice 行前通知／award 得獎
+     pin:true＝置頂。新增一則就複製一行改內容。 */
+  news: [
+    {date:"2026-10-20", cat:"general", pin:true, title:"HANZT 2027 網站上線", text:"〔待填〕網站上線公告內容"},
+    {date:"2026-10-20", cat:"cfp", title:"〔待填〕徵稿公告標題", text:"〔待填〕徵稿公告內容"},
+    {date:"2026-10-20", cat:"reg", title:"〔待填〕註冊公告標題", text:"〔待填〕註冊公告內容"},
+    {date:"2026-10-20", cat:"agenda", title:"〔待填〕議程公告標題", text:"〔待填〕議程公告內容"}
+  ],
+
+  /* [F] 會議介紹（首頁「關於」、會議資訊頁） */
+  about: {
+    zh:"氫能是淨零轉型中發電、運輸與工業部門的重要能源選項。2027 國際氫能應用與淨零科技研討會（HANZT 2027）為第二十二屆，於國立成功大學舉辦，邀集學界、研究機構與產業，交流氫能生產、儲運、燃料電池、系統整合與淨零技術的最新成果，並透過技術論壇與學生論文競賽促進產學合作與人才培育。",
+    en:"Hydrogen is a key option for decarbonising power, transport and industry. HANZT 2027, the 22nd edition of the conference, is held at National Cheng Kung University and brings academia, research institutes and industry together on hydrogen production, storage, fuel cells, system integration and net-zero technology, with a technology forum and a student paper competition."
+  },
+  goals: [   // 大會目標（會議資訊頁四張卡）
+    [{zh:"技術交流",en:"Exchange"},"〔待填〕技術交流目標說明"],
+    [{zh:"產學媒合",en:"Industry links"},"〔待填〕產學媒合目標說明"],
+    [{zh:"人才培育",en:"Talent"},"〔待填〕人才培育目標說明"],
+    [{zh:"政策對話",en:"Policy"},"〔待填〕政策對話目標說明"]
+  ],
+  highlights: [   // 活動亮點（首頁「關於」下方三欄）
+    [{zh:"技術交流",en:"Technical exchange"},"〔待填〕亮點說明"],
+    [{zh:"產學媒合",en:"Industry forum"},"〔待填〕亮點說明"],
+    [{zh:"學生競賽",en:"Student awards"},"〔待填〕亮點說明"]
+  ],
+
+  /* [G] 主協辦單位（首頁 logo 區、頁尾）。第 2 組是主辦、第 3 組是合辦，頁尾會引用 */
+  organizers: [
+    {role:{zh:"指導單位",en:"Supervised by"}, items:["〔待填〕指導單位"]},
+    {role:{zh:"主辦單位",en:"Organized by"}, items:["台灣氫能與燃料電池學會"]},
+    {role:{zh:"合辦／承辦單位",en:"Hosted by"}, items:["國立成功大學 航空太空工程學系"]},
+    {role:{zh:"協辦單位",en:"Co-organized by"}, items:["〔待填〕協辦單位"]}
+  ],
+  /* 贊助商名稱（首頁與贊助頁的 logo 輪播）。目前是虛構樣品，正式名單確定後替換 */
+  sponsors: ["Sample Energy","示範氫能（樣品）","Demo Fuel Cell","樣品能源（樣品）","Placeholder H₂","Example Power","範例電池（樣品）","Mock Stack Inc."],
+
+  /* [H] 組織架構（會議資訊頁）：[職稱, 姓名, 單位] */
+  committeeKey: [
+    ["榮譽主任委員","〔待填〕姓名","〔待填〕單位職稱"],
+    ["主任委員","〔待填〕姓名","〔待填〕單位職稱"],
+    ["副主任委員","〔待填〕姓名","〔待填〕單位職稱"],
+    ["總幹事","〔待填〕姓名","〔待填〕單位職稱"],
+    ["秘書長","〔待填〕姓名","〔待填〕單位職稱"]
+  ],
+  workgroups: [   // [組別, 負責人, 主要工作]
+    ["論文組","〔待填〕負責人","學生論文競賽、論文收集、海報論文"],
+    ["議程組","〔待填〕負責人","議程安排、邀請演講、一般論文"],
+    ["場地組","〔待填〕負責人","場地商借、會場布置、平面圖與交通指引"],
+    ["財務組","〔待填〕負責人","預算與核銷、匯款帳號、收據與發票"],
+    ["廠商組","〔待填〕負責人","接洽廠商、贊助與參展專區"],
+    ["宣傳組","〔待填〕負責人","網站設計與更新、海報與通知"],
+    ["補助申請","〔待填〕負責人","國科會等補助申請"]
+  ],
+  members: ["〔待填〕委員姓名｜單位","〔待填〕委員姓名｜單位","〔待填〕委員姓名｜單位","〔待填〕委員姓名｜單位"],
+
+  /* [I] 大會講者（講者頁）：time 寫 "YYYY-MM-DD HH:MM" */
+  keynotes: [
+    {name:"〔待填〕講者 1 姓名", org:"〔待填〕單位職稱", title:"〔待填〕演講題目", time:"2027-06-19 10:10", chair:"〔待填〕引言人", bio:"〔待填〕講者簡介", abs:"〔待填〕演講摘要"},
+    {name:"〔待填〕講者 2 姓名", org:"〔待填〕單位職稱", title:"〔待填〕演講題目", time:"2027-06-19 10:40", chair:"〔待填〕引言人", bio:"〔待填〕講者簡介", abs:"〔待填〕演講摘要"},
+    {name:"〔待填〕講者 3 姓名", org:"〔待填〕單位職稱", title:"〔待填〕演講題目", time:"2027-06-19 11:20", chair:"〔待填〕引言人", bio:"〔待填〕講者簡介", abs:"〔待填〕演講摘要"}
+  ],
+
+  /* [J] 兩日議程（議程頁）：[開始, 結束, 類型, 標題, 說明]
+     類型決定顏色：keynote 大會演講／forum 論壇／paper 論文／break 休息／social 餐敘／ceremony 典禮 */
+  agenda: [
+    {day:"2027-06-18", name:{zh:"技術論壇",en:"Technology Forum"}, items:[
+      ["09:00","09:10","ceremony",{zh:"論壇開幕致詞",en:"Forum opening"},""],
+      ["09:10","09:40","forum",{zh:"論壇演講 1",en:"Forum talk 1"},"〔待填〕講者／單位｜講題"],
+      ["09:40","10:10","forum",{zh:"論壇演講 2",en:"Forum talk 2"},"〔待填〕講者／單位｜講題"],
+      ["10:10","10:40","forum",{zh:"論壇演講 3",en:"Forum talk 3"},"〔待填〕講者／單位｜講題"],
+      ["10:40","10:50","break",{zh:"茶敘",en:"Coffee break"},""],
+      ["10:50","11:50","forum",{zh:"論壇演講 4–5",en:"Forum talks 4–5"},"〔待填〕講者／單位｜講題"],
+      ["11:50","13:30","break",{zh:"午餐",en:"Lunch"},""],
+      ["13:30","15:00","forum",{zh:"論壇演講 6–8",en:"Forum talks 6–8"},"〔待填〕講者／單位｜講題"],
+      ["15:00","15:20","break",{zh:"茶敘",en:"Coffee break"},""],
+      ["15:20","16:50","forum",{zh:"論壇演講 9–11",en:"Forum talks 9–11"},"〔待填〕講者／單位｜講題"],
+      ["16:50","17:00","ceremony",{zh:"閉幕致詞",en:"Closing"},""],
+      ["18:00","20:30","social",{zh:"VIP 邀請晚宴",en:"VIP dinner"},"〔待填〕地點"]
+    ]},
+    {day:"2027-06-19", name:{zh:"學術研討會",en:"Conference"}, items:[
+      ["08:30","09:00","break",{zh:"報到",en:"Registration"},""],
+      ["09:00","10:00","ceremony",{zh:"開幕典禮／致詞／會員大會／合照",en:"Opening ceremony & AGM"},"〔待填〕地點"],
+      ["10:00","10:10","break",{zh:"茶敘",en:"Coffee break"},""],
+      ["10:10","10:40","keynote",{zh:"大會演講 I",en:"Plenary I"},"〔待填〕講者 1"],
+      ["10:40","11:10","keynote",{zh:"大會演講 II",en:"Plenary II"},"〔待填〕講者 2"],
+      ["11:10","11:20","break",{zh:"茶敘・海報開放張貼",en:"Break · poster set-up"},""],
+      ["11:20","11:50","keynote",{zh:"大會演講 III",en:"Plenary III"},"〔待填〕講者 3"],
+      ["11:50","13:20","break",{zh:"午餐／學會理監事會議",en:"Lunch / board meeting"},""],
+      ["13:20","17:00","paper",{zh:"一般論文發表・學生論文競賽・海報競賽",en:"Oral papers · Student competition · Posters"},"〔待填〕各會場"],
+      ["18:00","20:30","social",{zh:"大會晚宴暨頒獎",en:"Banquet & awards"},"〔待填〕晚宴地點"]
+    ]}
+  ],
+
+  /* [K] 逐篇論文發表時間（議程頁後三個分頁）：[編號, 時間, 題目, 作者, 地點]
+     編號格式和投稿系統一致：GP 一般／SC 學生／PO 海報＋領域兩碼＋流水號 */
+  papers: {
+    oral: [
+      ["GP01-001","13:20–13:35","〔待填〕論文題目","〔待填〕作者","〔待填〕會議室"],
+      ["GP02-001","13:20–13:35","〔待填〕論文題目","〔待填〕作者","〔待填〕會議室"]
+    ],
+    student: [
+      ["SC01-001","13:25–13:35","〔待填〕論文題目","〔待填〕作者","〔待填〕會議室"],
+      ["SC02-001","13:25–13:35","〔待填〕論文題目","〔待填〕作者","〔待填〕會議室"]
+    ],
+    poster: [
+      ["PO01-001","13:20–15:30","〔待填〕海報題目","〔待填〕作者","〔待填〕張貼位置"]
+    ]
+  },
+
+  /* [L] 投稿主題（徵稿頁、投稿表單的領域選單）。key 是領域代號，請勿更動 */
+  topics: [
+    {key:"1", area:{zh:"領域一：氫能技術",en:"Area 1: Hydrogen Technology"}, items:[
+      ["H1",{zh:"氫能經濟技術與產業發展",en:"Hydrogen economy & industry"},"氫能應用與生態和環境的問題、氫能應用安全問題、氫能經濟、氫能分析。"],
+      ["H2",{zh:"氫的生產技術",en:"Hydrogen production"},"綠氫、藍氫、灰氫、褐氫等產氫技術開發；水電解產氫與轉能（P2G）。"],
+      ["H3",{zh:"氫的運輸、儲存與純化",en:"Transport, storage & purification"},"固定式、流動性儲氫系統、物理化學儲氫（含金屬氫化物）、氣體純化、PSA 與 Membrane 分離純化、氫能品質。"]
+    ]},
+    {key:"2", area:{zh:"領域二：燃料電池",en:"Area 2: Fuel Cells"}, items:[
+      ["F1",{zh:"基礎研究（新材料、新技術、新模型）",en:"Fundamentals"},"多孔電極多重物理量耦合、雙極板流場最佳化、觸媒與膜電極組製程與結構最佳化、微尺度燃料電池。"],
+      ["F2",{zh:"BOP（Balance of Plant）分析",en:"Balance of Plant"},"電池堆設計與組裝、水管理、散熱與回熱、燃料與空氣供應次系統、氫氣回收系統。"],
+      ["F3",{zh:"AI 電能分析與管理、系統整合與應用",en:"AI power management & integration"},"AI 電力輸出動態響應分析、熱電合併（CHP）、混合電力系統、發電機／車輛／3C 應用、新型 SOFC 系統整合。"],
+      ["F4",{zh:"檢測技術",en:"Testing & diagnostics"},"操作條件最佳化、接觸阻抗與親疏水性等表面特性檢測、快速耐久性測試。"]
+    ]},
+    {key:"3", area:{zh:"領域三：淨零排放、碳捕捉與其他能源議題",en:"Area 3: Net zero & other energy topics"}, items:[
+      ["O",{zh:"其他相關能源議題",en:"Other energy topics"},"淨零排放、碳捕捉、生物燃料電池、電動車輛、智慧綠能控制、風能、鋰電池、地熱、生質能、太陽能電池、冷凍空調、能源管理與經濟、建築節能、智慧製造等。"]
+    ]}
+  ],
+  formats: [   // 投稿格式與規定（徵稿頁）
+    [{zh:"一般論文",en:"Oral paper"},"〔待填〕篇幅規定（例：1 頁摘要）"],
+    [{zh:"學生論文競賽",en:"Student competition"},"〔待填〕篇幅規定（例：至少 4 頁）"],
+    [{zh:"海報競賽",en:"Poster competition"},"〔待填〕摘要規定與海報尺寸"]
+  ],
+  prizes: [["第一名","〔待填〕獎金"],["第二名","〔待填〕獎金"],["第三名","〔待填〕獎金"],["海報競賽","〔待填〕獎項說明"]],
+
+  /* [M] 註冊費用（註冊頁表格、費用試算、投稿表單金額）
+     conf 依 feeCats 順序：一般、學生、國際一般(USD)、國際學生(USD)；forum 為論壇費（NTD）
+     ⚠ 金額和截止日要跟後端 Code.gs 的 CFG 一致 */
+  feeCats: [{zh:"一般人士（學研／業界）",en:"Domestic"},{zh:"學生（需附證明）",en:"Domestic student"},{zh:"國際一般",en:"International"},{zh:"國際學生",en:"International student"}],
+  feeCur: ["NTD","NTD","USD","USD"],
+  feeStages: [
+    {name:{zh:"早鳥報名",en:"Early bird"}, start:"2027-03-01", end:"2027-05-31", conf:[4200,3500,350,250], forum:2000},
+    {name:{zh:"一般報名",en:"Regular"}, start:"2027-06-01", end:"2027-06-17", conf:[4700,3900,400,300], forum:2500},
+    {name:{zh:"現場報名",en:"On-site"}, start:"2027-06-18", end:"2027-06-19", conf:[4900,4200,420,320], forum:3000}
+  ],
+  bank: [["銀行／郵局","〔待填〕"],["分行","〔待填〕"],["代號","〔待填〕"],["帳號","〔待填〕"],["戶名","〔待填〕"]],
+  refund: "〔待填〕取消與退費規定",
+
+  /* [N] 常見問題（FAQ 頁）：[問題, 回答]；新增一題就複製一行 */
+  faq: [
+    {cat:{zh:"論文發表注意事項",en:"Presenting"}, items:[
+      ["學生論文競賽的發表時間？","〔待填〕發表時間與報到規定"],
+      ["一般論文的發表時間？","〔待填〕發表時間"],
+      ["海報如何張貼？","〔待填〕海報列印、張貼與拆除規定"],
+      ["評分標準是什麼？","〔待填〕學生論文與海報競賽評分比例"]
+    ]},
+    {cat:{zh:"投稿",en:"Submitting"}, items:[
+      ["可以用英文投稿嗎？","〔待填〕投稿語言規定"],
+      ["摘要字數限制？","〔待填〕摘要字數限制"],
+      ["一定要用大會範本嗎？","〔待填〕範本使用規定"],
+      ["無法出席怎麼辦？","〔待填〕代理發表規定"]
+    ]},
+    {cat:{zh:"投稿系統操作",en:"Using the system"}, items:[
+      ["線上投稿怎麼操作？","在「線上投稿」選擇報名模式、填寫資料並上傳 PDF。送出後系統會寄出確認信，信中有編號與 5 位數驗證碼；沒收到請先檢查垃圾郵件匣。"],
+      ["如何修改稿件？","到「稿件與匯款管理」輸入投稿 Email 與驗證碼，即可修改題目、作者、摘要、關鍵字與重新上傳 PDF。投稿截止後無法修改。"],
+      ["如何回報匯款？","同樣在「稿件與匯款管理」登入後，填寫轉帳末 5 碼、轉帳日期並可上傳匯款證明；需要收據請填寫抬頭與統一編號。"],
+      ["怎麼知道繳費完成？","工作人員確認款項後，系統會寄出「繳費確認完成」通知信；登入管理頁也能看到繳費狀態。"],
+      ["費用怎麼計算？","依轉帳日期判斷早鳥、一般或現場級距。可先用「註冊費用」頁的費用試算器估算。"]
+    ]},
+    {cat:{zh:"交通與住宿",en:"Travel"}, items:[
+      ["建議怎麼到會場？","搭台鐵到「台南站」，從後站出口出站，左轉大學路步行至成大光復校區。搭高鐵者請在高鐵台南站轉乘沙崙線到台南站。詳見「交通住宿」頁。"],
+      ["可以開車嗎？","〔待填〕停車資訊"],
+      ["附近有住宿嗎？","請參考「交通住宿」頁的建議住宿。"]
+    ]}
+  ],
+
+  /* [O] 會場與交通（交通住宿頁） */
+  floors: [   // [樓層, 用途, [教室…]]
+    ["1F","〔待填〕用途（例：主場地、報到、廠商展示）",["〔待填〕教室編號"]],
+    ["2F","〔待填〕用途（例：一般論文、海報）",["〔待填〕教室編號"]],
+    ["3F","〔待填〕用途（例：學生論文競賽）",["〔待填〕教室編號"]]
+  ],
+  transport: [   // [方式, 說明, 是否顯示「待確認」]
+    [{zh:"台鐵",en:"Train (TRA)"},{zh:"搭到「台南站」，從後站出口出站，左轉大學路步行至成大光復校區（〔待填〕步行約幾分鐘）。",en:"Get off at Tainan Station, leave by the rear exit and turn left onto Daxue Rd. to NCKU Kuang-Fu Campus (〔待填〕 walking time)."},false],
+    [{zh:"高鐵",en:"High-speed rail"},{zh:"高鐵台南站走 2 樓連通道或 1 樓 1 號出口至台鐵沙崙站，搭沙崙線到「台南站」，再依台鐵路線步行。",en:"From THSR Tainan, use the 2F corridor or 1F Exit 1 to TRA Shalun Station, take the Shalun Line to Tainan Station, then walk as above."},false],
+    [{zh:"開車",en:"By car"},{zh:"國道一號南下由大灣交流道、北上由仁德交流道下，往市區方向行駛。",en:"National Freeway 1: southbound exit at Dawan, northbound exit at Rende, then head into the city."},false],
+    [{zh:"停車",en:"Parking"},"〔待填〕校內或周邊停車場資訊",false],
+    [{zh:"公車",en:"Bus"},"〔待填〕公車路線與站名",false],
+    [{zh:"桃園機場（國際旅客）",en:"From Taoyuan Airport"},{zh:"搭機場捷運至高鐵桃園站，轉高鐵到台南站，再轉沙崙線到台鐵台南站。",en:"Airport MRT to THSR Taoyuan, THSR to Tainan, then the Shalun Line to TRA Tainan Station."},false],
+    [{zh:"高雄小港機場（國際旅客）",en:"From Kaohsiung Airport"},{zh:"搭高雄捷運紅線至高雄車站或新左營站，轉台鐵北上到台南站。",en:"Kaohsiung MRT Red Line to Kaohsiung Main Station or Xinzuoying, then TRA north to Tainan Station."},false]
+  ],
+  /* Google 地圖：mapQuery 是地圖要搜尋的地點名稱，嵌入地圖與「在 Google 地圖開啟」按鈕都用它 */
+  mapQuery: "國立成功大學光復校區 國際會議廳",
+  venueDetail: "〔待填〕會場建築名稱與入口位置",
+  hotels: [   // [名稱, 距離, 備註]
+    ["〔待填〕飯店名稱","〔待填〕距離","〔待填〕備註"],
+    ["〔待填〕飯店名稱","〔待填〕距離","〔待填〕備註"],
+    ["〔待填〕飯店名稱","〔待填〕距離","〔待填〕備註"]
+  ],
+  sights: [   // 台南旅遊：[中文名, 英文名, 介紹]
+    ["赤崁樓","Chihkan Tower","〔待填〕景點介紹"],
+    ["臺南孔子廟","Confucius Temple","〔待填〕景點介紹"],
+    ["安平古堡","Anping Old Fort","〔待填〕景點介紹"],
+    ["神農街","Shennong Street","〔待填〕景點介紹"]
+  ],
+
+  /* [P] 聯絡與贊助（聯絡贊助頁） */
+  contacts: [
+    {role:{zh:"大會聯絡人",en:"Conference contact"}, name:"〔待填〕姓名", email:"〔待填〕Email", phone:"〔待填〕電話"},
+    {role:{zh:"贊助商聯絡人",en:"Sponsorship contact"}, name:"〔待填〕姓名", email:"〔待填〕Email", phone:"〔待填〕電話"}
+  ],
+  packages: [   // [方案名稱, 內容, 金額]
+    [{zh:"廣告刊登",en:"Advertising"},"〔待填〕方案內容（例：大會手冊 A4 廣告一頁）","〔待填〕金額"],
+    [{zh:"標準展示",en:"Standard booth"},"〔待填〕方案內容","〔待填〕金額"],
+    [{zh:"重點展示",en:"Premium booth"},"〔待填〕方案內容","〔待填〕金額"],
+    [{zh:"參展加購",en:"Extra staff"},"〔待填〕方案內容","〔待填〕金額"],
+    [{zh:"單純贊助",en:"Supporter"},"〔待填〕方案內容","〔待填〕金額"]
+  ],
+  booth: [["攤位規格","〔待填〕尺寸與桌椅"],["攤位權益","〔待填〕註冊人數、餐點"],["網站曝光","〔待填〕曝光方式"],["申請截止","〔待填〕日期"]],
+
+  /* [Q] 氫能車競賽（showH2Car 為 true 才會顯示） */
+  h2car: {rules:["〔待填〕競賽日期與地點","〔待填〕車輛規定","〔待填〕組別與獎項"], deadline:"〔待填〕報名截止日", schedule:"〔待填〕競賽議程"},
+
+  /* [R] 往屆網站（頁尾） */
+  pastSites: [["HEFC 2026","https://sites.google.com/view/2026hefc"],["HEFC 2025","https://sites.google.com/view/hefc2025/home"],["HEFC 2024","https://sites.google.com/view/hefc2024"]]
+};
+
+/* ============================ 程式（一般不需修改） ============================ */
+const C = CONFIG;
+C.mapsUrl = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapQuery);
+let lang = "zh";
+const store = { get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}} };
+lang = store.get("hefc-lang","zh");
+const L = v => v==null ? "" : (typeof v==="object" && !Array.isArray(v)) ? (v[lang] ?? v.zh) : v;
+const T = (zh,en) => lang==="en" ? en : zh;
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const todayD = ()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate());};
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const D = s => {const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
+const WK=["日","一","二","三","四","五","六"],WKE=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fd(s,short){const d=D(s);return lang==="en"?`${WKE[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}${short?"":", "+d.getFullYear()}`:`${short?"":d.getFullYear()+"/"}${d.getMonth()+1}/${d.getDate()}（${WK[d.getDay()]}）`;}
+const range=(a,b)=>b&&b!==a?`${fd(a)} – ${fd(b,true)}`:fd(a);
+const days=s=>Math.round((D(s)-todayD())/864e5);
+function state(a,b){b=b||a;const t=todayD();if(t>D(b))return"past";if(t>=D(a))return"now";return"up";}
+function stTag(a,b){const s=state(a,b);if(s==="past")return`<span class="tag past">${T("已截止","Closed")}</span>`;if(s==="now")return`<span class="tag now">${T("進行中","Open")}</span>`;return`<span class="tag">${T("倒數 ","in ")}${days(a)}${T(" 天"," days")}</span>`;}
+const tbd=()=>`<span class="tag tbd">${T("暫定","TBC")}</span>`;
+const ph=(what,size)=>`<div class="ph"><span><b>〔待填〕${T("放圖","Image")}：${what}</b>${size||""}</span></div>`;
+const linkBtn=(url,label,primary)=>url?`<a class="btn${primary?" primary":""}" href="${url}" target="_blank" rel="noopener">${label}</a>`:`<span class="btn" aria-disabled="true">${label}・${T("準備中","Coming soon")}</span>`;
+const head=(eb,h,p)=>`<div class="head rv"><span class="eyebrow">${eb}</span><h2>${h}</h2>${p?`<p>${p}</p>`:""}</div>`;
+const tabState={}; let timers=[]; let rafId=0;
+
+function tabs(id,list){
+  const cur=Math.min(tabState[id]??0,list.length-1);
+  return `<div class="tabgroup"><div class="tabs" role="tablist">${list.map((t,i)=>`<button role="tab" aria-selected="${i===cur}" data-tabs="${id}" data-i="${i}">${L(t[0])}</button>`).join("")}</div>${list.map((t,i)=>`<div class="panel" role="tabpanel" data-panel="${id}" data-i="${i}" ${i===cur?"":"hidden"}>${t[1]()}</div>`).join("")}</div>`;
+}
+
+/* ---------- fees ---------- */
+function stageIndex(dateStr){const i=C.feeStages.findIndex(s=>dateStr<=s.end);return i<0?C.feeStages.length-1:i;}
+function calcFee(cat,conf,forum,dateStr){
+  const k=stageIndex(dateStr), s=C.feeStages[k], cur=C.feeCur[cat];
+  if(forum && cat>1) return {stage:L(s.name),cur,amount:null};
+  return {stage:L(s.name),cur,amount:(conf?s.conf[cat]:0)+(forum?s.forum:0),k};
+}
+const money=(cur,n)=>n==null?T("另洽大會","Contact us"):`${cur} ${n.toLocaleString()}`;
+
+/* ---------- sponsors (sample logos, fictional) ---------- */
+function sampleLogo(name,i){
+  const hues=["#1747c4","#139fc4","#1e7f4f","#7a4bc0","#b26a00","#0d1b2a"];const c=hues[i%hues.length];
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="96" viewBox="0 0 240 96"><rect width="240" height="96" fill="#ffffff"/><circle cx="40" cy="48" r="20" fill="none" stroke="${c}" stroke-width="5"/><circle cx="40" cy="48" r="7" fill="${c}"/><text x="72" y="54" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0d1b2a">${name.replace(/&/g,"&amp;")}</text><text x="72" y="72" font-family="Arial, sans-serif" font-size="10" fill="#8a96a3">SAMPLE LOGO</text></svg>`;
+  return "data:image/svg+xml,"+encodeURIComponent(svg);
+}
+const marquee=()=>{const imgs=C.sponsors.map((n,i)=>`<img src="${sampleLogo(n,i)}" alt="${esc(n)}" width="180" height="72">`).join("");return `<div class="marquee" aria-label="${T("贊助廠商","Sponsors")}"><div class="marquee-track">${imgs}${imgs.replace(/alt="[^"]*"/g,'alt=""')}</div></div>`;};
+
+/* ---------- hero ---------- */
+function hero(){
+  const news=C.news.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(n=>`<a href="#home" data-jump="news">${n.date.slice(5).replace("-","/")}｜${esc(n.title)}</a>`).join("");
+  return `<section class="hero"><canvas id="bubbles" aria-hidden="true"></canvas><div class="wrap hero-in">
+   <div style="min-width:0">
+     <span class="eyebrow">Forum · Conference · Posters — ${T(`第 ${C.edition} 屆`,`${C.edition}nd edition`)}</span>
+     <h1 style="margin-top:10px">${L(C.title)}</h1>
+     <p class="sub">${L(C.subtitle)}</p>
+     ${lang==="zh"?`<p class="en">${C.title.en}</p>`:""}
+     <dl class="facts">
+       <dt>${T("日期","Date")}</dt><dd class="mono">${range(C.start,C.end)}</dd>
+       <dt>${T("地點","Venue")}</dt><dd>${L(C.venue)}<br><span class="note">${L(C.address)}</span></dd>
+       <dt>${T("晚宴","Banquet")}</dt><dd>${C.banquet}</dd>
+     </dl>
+     <div class="cta">
+       <a class="btn primary" href="#submit">${T("線上投稿／報名","Submit / Register")}</a>
+       <a class="btn" href="#cfp">${T("徵稿資訊","Call for papers")}</a>
+       <a class="btn" href="#register">${T("註冊費用","Fees")}</a>
+       <a class="btn" href="#contact">${T("參展贊助","Sponsor")}</a>
+     </div>
+   </div>
+   <div class="tile" aria-label="HANZT 2027">
+     <div class="row"><span>${C.edition}</span><span>${C.year}</span></div>
+     <div class="sym">H<sub>2</sub></div>
+     <div><div class="nm">HYDROGEN · NET ZERO</div><div class="nm" style="margin-top:2px">TAINAN · NCKU</div></div>
+   </div>
+  </div>
+  <div class="ticker"><b>${T("最新公告","News")}</b><div class="ticker-view"><div class="ticker-track">${news}${news}</div></div></div>
+  </section>`;
+}
+function startBubbles(){
+  const cv=document.getElementById("bubbles"); if(!cv) return;
+  const ctx=cv.getContext("2d"); const dpr=Math.min(2,window.devicePixelRatio||1);
+  const size=()=>{cv.width=cv.clientWidth*dpr;cv.height=cv.clientHeight*dpr;};
+  size(); window.addEventListener("resize",size);
+  const col=()=>getComputedStyle(document.documentElement).getPropertyValue("--flame").trim()||"#139fc4";
+  const W=()=>cv.width,H=()=>cv.height;
+  const mk=(y)=>({x:Math.random()*W(),y:y??H()+20*dpr,r:(4+Math.random()*16)*dpr,v:(.25+Math.random()*.6)*dpr,ph:Math.random()*6.28,lab:Math.random()<.18});
+  const bs=Array.from({length:34},()=>mk(Math.random()*H()));
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function frame(){
+    if(!cv.isConnected) return;
+    ctx.clearRect(0,0,W(),H()); const c=col();
+    for(const b of bs){
+      if(!reduce){b.y-=b.v;b.ph+=.015;b.x+=Math.sin(b.ph)*.35*dpr;}
+      if(b.y<-30*dpr){Object.assign(b,mk());}
+      const fade=Math.min(1,b.y/(H()*.5));
+      ctx.globalAlpha=.32*fade; ctx.strokeStyle=c; ctx.lineWidth=1.3*dpr;
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.283); ctx.stroke();
+      if(b.lab&&b.r>10*dpr){ctx.globalAlpha=.45*fade;ctx.fillStyle=c;ctx.font=`600 ${Math.round(b.r*.75)}px "IBM Plex Mono",monospace`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("H₂",b.x,b.y);}
+    }
+    ctx.globalAlpha=1;
+    if(!reduce) rafId=requestAnimationFrame(frame);
+  }
+  frame();
+}
+function startCountdown(){
+  const el=document.getElementById("cd"); if(!el) return;
+  const [h,m]=C.openTime.split(":").map(Number); const tgt=D(C.start); tgt.setHours(h,m,0,0);
+  const tick=()=>{let s=Math.max(0,Math.floor((tgt-new Date())/1000));const v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];
+    el.querySelectorAll("b").forEach((b,i)=>b.textContent=String(v[i]).padStart(i?2:1,"0"));};
+  tick(); timers.push(setInterval(tick,1000));
+}
+
+/* ---------- views ---------- */
+const V={};
+V.home=()=>{
+  const next=C.dates.filter(d=>state(d.extendedTo||d.start,d.extendedTo||d.end)!=="past")[0];
+  const cats={all:T("全部","All"),general:T("公告","General"),cfp:T("徵稿","Papers"),reg:T("註冊","Registration"),agenda:T("議程","Program"),notice:T("行前通知","Briefing"),award:T("得獎","Awards")};
+  const f=tabState.news||"all";
+  const news=C.news.filter(n=>f==="all"||n.cat===f).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.date.localeCompare(a.date));
+  const e=D(C.end);e.setDate(e.getDate()+1);
+  const gcal=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(C.short)}&dates=${C.start.replace(/-/g,"")}/${iso(e).replace(/-/g,"")}&location=${encodeURIComponent(L(C.venue))}`;
+  const quick=[["info",T("會議資訊","About"),T("宗旨、目標與組織架構","Mission, goals, committee")],["agenda",T("議程資訊","Program"),T("兩日議程與逐篇發表時間","Two-day program and paper slots")],["cfp",T("徵稿資訊","Call for papers"),T("主題、格式、獎項與範本","Topics, formats, prizes, templates")],["submit",T("線上投稿／報名","Submit / Register"),T("投稿、修改稿件、回報匯款","Submit, revise, report payment")],["faq","FAQ",T("報名、投稿、費用、交通問答","Common questions")],["venue",T("交通住宿","Travel & venue"),T("樓層配置、交通、住宿","Floors, transport, hotels")]];
+  return `
+  <section class="status">
+    <div class="card rv"><span class="eyebrow">${T("開幕倒數","Countdown")}</span>
+      <div class="cd" id="cd"><div><b>0</b><span>${T("天","days")}</span></div><div><b>00</b><span>${T("時","hrs")}</span></div><div><b>00</b><span>${T("分","min")}</span></div><div><b>00</b><span>${T("秒","sec")}</span></div></div>
+      <div style="margin-top:14px"><a class="btn small" href="${gcal}" target="_blank" rel="noopener">${T("加入 Google 日曆","Add to Google Calendar")}</a></div></div>
+    <div class="card rv"><span class="eyebrow">${T("下一個日程","Next milestone")}</span>${next?`<h3 style="margin-top:10px">${L(next.label)} ${next.tbd?tbd():""}</h3><p class="mono" style="margin-top:6px">${range(next.extendedTo||next.start,next.end)}</p><p style="margin-top:8px">${stTag(next.extendedTo||next.start,next.end)}</p>`:`<p style="margin-top:10px">${T("大會已圓滿結束，感謝參與。","The conference has concluded.")}</p>`}</div>
+    <div class="card rv"><span class="eyebrow">${T("下載","Downloads")}</span><div class="dl" style="margin-top:12px">${linkBtn(C.links.handbook,T("大會手冊","Handbook"))}${linkBtn(C.links.briefing,T("行前通知","Briefing"))}${linkBtn(C.links.awards,T("得獎名單","Awards"))}${linkBtn(C.links.photos,T("活動照片","Photos"))}</div></div>
+  </section>
+  <section class="grid2">
+    <div class="card rv" style="display:grid;gap:18px;align-content:start">${head("Important dates",T("重要日程","Important dates"),T("依今天日期自動標示狀態；「暫定」者尚待確認。","Status updates automatically; TBC items are provisional."))}
+      <ol class="tl">${C.dates.map(d=>{const a=d.extendedTo||d.start,s=state(a,d.end);return`<li class="${s}"><span class="tl-d">${d.extendedTo?`<s>${fd(d.start)}</s> → ${fd(d.extendedTo)}`:range(d.start,d.end)}</span><span class="tl-l">${L(d.label)} ${d.tbd?tbd():""} ${stTag(a,d.end)}</span></li>`}).join("")}</ol>
+    </div>
+    <div style="display:grid;gap:16px;align-content:start" id="news">${head("News",T("最新消息","News"))}
+      <div class="filters">${Object.entries(cats).map(([k,v])=>`<button class="chip" data-news="${k}" aria-pressed="${f===k}">${v}</button>`).join("")}</div>
+      <div class="newslist">${news.length?news.map(n=>`<article class="news-item"><div class="meta"><span class="mono">${n.date.replace(/-/g,".")}</span>${n.pin?`<span class="pin">${T("置頂","Pinned")}</span>`:""}<span class="tag" style="color:var(--flame)">${cats[n.cat]}</span></div><h3>${esc(n.title)}</h3><p class="note">${esc(n.text)}</p></article>`).join(""):`<p class="note">${T("此分類目前沒有消息。","No news in this category.")}</p>`}</div>
+    </div>
+  </section>
+  <section style="display:grid;gap:20px">${head("Quick links",T("快速入口","Quick links"))}
+    <div class="grid3">${quick.map(([h,t,d])=>`<a class="card rv" href="#${h}"><span class="eyebrow">${h}</span><h3>${t}</h3><p class="note">${d}</p><span class="go">${T("查看內容 →","Open →")}</span></a>`).join("")}</div>
+  </section>
+  <section class="grid2" style="align-items:center">
+    <div class="prose rv">${head("About",T(`關於 ${C.short}`,`About ${C.short}`))}<p>${L(C.about)}</p>
+      <div class="grid3" style="margin-top:6px">${C.highlights.map(([h,d])=>`<div><b>${L(h)}</b><p class="note">${d}</p></div>`).join("")}</div></div>
+    ${ph(T("大會主視覺海報","Key visual poster"),"（建議 1200×1700 或 1600×900）")}
+  </section>
+  <section style="display:grid;gap:18px">${head("Sponsors",T("贊助夥伴","Sponsors"),T("目前為樣品 logo，正式贊助商確定後替換。","Sample logos for now."))}${marquee()}<div><a class="btn" href="#contact">${T("成為贊助夥伴","Become a sponsor")}</a></div></section>
+  <section style="display:grid;gap:24px">${head("Organizers",T("主協辦單位","Organizers"))}
+    ${C.organizers.map(g=>`<div class="org-group"><h3>${L(g.role)}</h3><div class="logos">${g.items.map(n=>`<div class="ph"><span><b>${n}</b>〔待填〕Logo</span></div>`).join("")}</div></div>`).join("")}
+  </section>`;
+};
+
+V.info=()=>`${head("About",T("會議資訊","Conference information"),`${range(C.start,C.end)}・${L(C.venue)}`)}
+<section class="grid2"><div class="prose rv"><h3>${T("大會宗旨與願景","Mission")}</h3><p>${L(C.about)}</p></div>${ph(T("往屆活動照片","Past event photo"))}</section>
+<section style="display:grid;gap:16px"><h3>${T("大會目標","Goals")}</h3><div class="grid4">${C.goals.map(([h,d])=>`<div class="card rv"><h3>${L(h)}</h3><p class="note">${d}</p></div>`).join("")}</div></section>
+<section style="display:grid;gap:16px"><h3>${T("核心主題","Core topics")}</h3><div class="grid3">${C.topics.map(g=>`<a class="card rv" href="#cfp"><h3>${L(g.area)}</h3><p class="note">${g.items.map(i=>i[0]+" "+L(i[1])).join("、")}</p></a>`).join("")}</div></section>
+<section style="display:grid;gap:16px"><h3>${T("大會組織架構","Organization")}</h3><p class="note">${T("實際名單以正式公告為準。","Subject to official announcement.")}</p>
+ <div class="grid3">${C.committeeKey.map(([r,n,o])=>`<div class="card"><span class="eyebrow">${r}</span><p style="font-weight:700;margin-top:6px">${n}</p><p class="note">${o}</p></div>`).join("")}</div></section>
+<section style="display:grid;gap:16px"><h3>${T("籌備工作小組","Working groups")}</h3><div class="tw"><table><thead><tr><th>${T("組別","Group")}</th><th>${T("負責人","Lead")}</th><th>${T("主要工作","Responsibilities")}</th></tr></thead><tbody>${C.workgroups.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table></div></section>
+<section style="display:grid;gap:16px"><h3>${T("委員名單","Committee members")}</h3><div class="grid4">${C.members.map(m=>`<div class="card" style="padding:14px 16px">${m}</div>`).join("")}</div></section>`;
+
+function agendaDay(day){
+  const names={keynote:T("大會演講","Plenary"),forum:T("技術論壇","Forum"),paper:T("論文發表","Papers"),break:T("報到／休息","Break"),social:T("餐敘","Social"),ceremony:T("典禮","Ceremony")};
+  const now=new Date(), isToday=iso(todayD())===day.day, hm=`${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  return `<div class="legend">${Object.entries(names).map(([k,v])=>`<span><i style="background:var(--c-${k})"></i>${v}</span>`).join("")}</div>
+  <div class="ag">${day.items.map(([a,b,k,t,w])=>`<div class="ag-row${isToday&&hm>=a&&hm<b?" live":""}" data-search="${esc((L(t)+" "+w).toLowerCase())}"><span class="t">${a}–${b}</span><span class="ag-bar" style="background:var(--c-${k})"></span><div><span class="k" style="color:var(--c-${k})">${names[k]}</span><div style="font-weight:700">${L(t)}</div>${w?`<div class="note">${w}</div>`:""}</div></div>`).join("")}</div>`;
+}
+function paperTable(list){
+  const mine=store.get("hefc-mine",[]);
+  return `<div class="tw"><table><thead><tr><th style="width:40px"><span class="note">★</span></th><th>${T("編號","ID")}</th><th>${T("時間","Time")}</th><th>${T("題目","Title")}</th><th>${T("作者","Authors")}</th><th>${T("地點","Room")}</th></tr></thead><tbody>${list.map(r=>`<tr data-paper="${r[0]}" data-search="${esc(r.join(" ").toLowerCase())}"><td><button class="star" data-star="${r[0]}" aria-pressed="${mine.includes(r[0])}" aria-label="${T("加入我的場次","Add to my schedule")}">★</button></td><td class="mono">${r[0]}</td><td class="mono">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</tbody></table></div>`;
+}
+V.agenda=()=>`${head("Program",T("議程資訊","Program"),T("Day 1 技術論壇、Day 2 學術研討會。議程為暫定版本，以大會最新公告為準。","Day 1 forum, Day 2 conference. Provisional."))}
+<div class="toolbar"><input type="search" id="agSearch" placeholder="${T("搜尋論文編號、題目、作者或講者","Search by ID, title, author or speaker")}" aria-label="search"><button class="chip" id="mineOnly" aria-pressed="false">★ ${T("只看我的場次","My schedule only")}</button>${linkBtn(C.links.agendaPdf,T("下載議程 PDF","Program PDF"))}</div>
+<div id="agWrap">${tabs("agenda",[
+ [{zh:`Day 1 ${C.agenda[0].name.zh}`,en:`Day 1 ${C.agenda[0].name.en}`},()=>`<p class="note">${fd(C.agenda[0].day)}</p>`+agendaDay(C.agenda[0])],
+ [{zh:`Day 2 ${C.agenda[1].name.zh}`,en:`Day 2 ${C.agenda[1].name.en}`},()=>`<p class="note">${fd(C.agenda[1].day)}</p>`+agendaDay(C.agenda[1])],
+ [{zh:"一般論文發表",en:"Oral papers"},()=>paperTable(C.papers.oral)],
+ [{zh:"學生論文競賽",en:"Student competition"},()=>paperTable(C.papers.student)],
+ [{zh:"海報競賽",en:"Posters"},()=>paperTable(C.papers.poster)]
+])}</div><p class="note">${T("★ 標記的場次只存在你這台裝置的瀏覽器裡。","Starred sessions are saved in this browser only.")}</p>`;
+
+V.speakers=()=>`${head("Featured speakers",T("大會講者","Plenary speakers"),T(`Day 2 大會演講・${fd(C.agenda[1].day)}`,`Day 2 plenary · ${fd(C.agenda[1].day)}`))}
+<div class="grid2">${C.keynotes.map(k=>`<div class="card rv"><div class="person">${ph(T("講者照片","Photo"))}<div style="min-width:0"><span class="eyebrow">${k.time.slice(11)}・${fd(k.time.slice(0,10),true)}</span><h3 style="margin-top:4px">${k.name}</h3><p class="note">${k.org}</p><p style="margin-top:8px;font-weight:700">${k.title}</p><p class="note" style="margin-top:4px">${T("引言人","Chair")}：${k.chair}</p></div></div>
+<details><summary>${T("講者簡介與演講摘要","Biography & abstract")}</summary><div><b>${T("講者介紹","Biography")}</b><p>${k.bio}</p><b>${T("演講摘要","Abstract")}</b><p>${k.abs}</p></div></details></div>`).join("")}</div>
+<div><a class="btn" href="#agenda">${T("查看完整議程","Full program")}</a></div>`;
+
+V.cfp=()=>{const dls=C.dates.filter(d=>d.deadline);
+return `${head("Call for papers",T("徵稿資訊","Call for papers"),T("三大領域、八個主題；一般論文、學生論文競賽與海報競賽三種發表形式。","Three areas, eight topics; oral, student competition and poster."))}
+<div class="grid3">${dls.map(d=>`<div class="card rv"><span class="eyebrow">Deadline</span><h3 style="margin-top:6px">${L(d.label)}</h3><p class="mono">${fd(d.extendedTo||d.start)} 23:59</p><p style="margin-top:6px">${d.tbd?tbd():""} ${stTag(d.extendedTo||d.start)}</p></div>`).join("")}
+<div class="card rv" style="display:grid;gap:10px;align-content:center"><p>${T("每篇論文至少須有 1 人完成註冊。","At least one author must register per paper.")}</p><a class="btn primary" href="#submit">${T("前往線上投稿","Submit online")}</a></div></div>
+${tabs("cfp",[
+ [{zh:"投稿主題",en:"Topics"},()=>`<div class="grid3" style="align-items:start">${C.topics.map(g=>`<div style="display:grid;gap:4px"><h3>${L(g.area)}</h3>${g.items.map(([c,n,d])=>`<div class="topic"><span class="code">${c}</span><div><div style="font-weight:700">${L(n)}</div><p class="note">${d}</p></div></div>`).join("")}</div>`).join("")}</div>`],
+ [{zh:"格式與規定",en:"Formats"},()=>`<div class="grid3">${C.formats.map(([h,d])=>`<div class="card"><h3>${L(h)}</h3><p class="note">${d}</p></div>`).join("")}</div>`],
+ [{zh:"獎項",en:"Prizes"},()=>`<div class="grid4">${C.prizes.map(([h,d])=>`<div class="card"><span class="eyebrow">${h}</span><p class="mono" style="font-size:1.2rem;margin-top:6px">${d}</p></div>`).join("")}</div>`],
+ [{zh:"範本下載",en:"Templates"},()=>`<div class="grid2"><div class="card prose"><h3>${T("一般投稿範本","General template")}</h3><p class="note">${T("適用一般論文、學生論文競賽、海報競賽（暫定）","For all paper types (TBC)")}</p><div class="dl">${linkBtn(C.links.templateZh,T("中文範本","Chinese"))}${linkBtn(C.links.templateEn,T("英文範本","English"))}</div></div>
+   <div class="card prose"><h3>${T("學生論文競賽範本","Student template")}</h3><div class="dl">${linkBtn(C.links.templateStudentZh,T("中文範本","Chinese"))}${linkBtn(C.links.templateStudentEn,T("英文範本","English"))}</div></div>
+   <div class="card prose"><h3>${T("海報張貼範本","Poster template")}</h3><div class="dl">${linkBtn(C.links.templatePoster,T("開啟範本","Open"))}</div></div>
+   <div class="card prose"><h3>${T("著作權授權書","Copyright form")}</h3><p class="note">${T("錄取後隨通知信提供（暫定）","Sent with acceptance (TBC)")}</p><div class="dl">${linkBtn(C.links.copyright,T("下載授權書","Download"))}</div></div></div>`]
+])}`;};
+
+V.register=()=>{
+  const k=C.feeStages.findIndex(s=>state(s.start,s.end)==="now");
+  const th=C.feeStages.map((s,i)=>`<th class="num">${L(s.name)}<br><span class="mono note" style="font-weight:400">${fd(s.start,true)}–${fd(s.end,true)}</span>${i===k?`<br><span class="tag now">${T("目前","Now")}</span>`:""}</th>`).join("");
+  return `${head("Registration",T("研討會註冊","Registration"),T("費用依匯款日期判斷級距。金額參考往年標準，屬暫定。","Fees follow the payment date. Provisional amounts."))}
+  <section style="display:grid;gap:12px"><h3>${T("學術研討會註冊費","Conference fees")} ${tbd()}</h3>
+  <div class="tw"><table><thead><tr><th>${T("身分","Category")}</th>${th}</tr></thead><tbody>${C.feeCats.map((c,ci)=>`<tr><td>${L(c)}</td>${C.feeStages.map((s,i)=>`<td class="num${i===k?" cur":""}">${C.feeCur[ci]} ${s.conf[ci].toLocaleString()}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>
+  <section style="display:grid;gap:12px"><h3>${T("技術論壇註冊費","Forum fees")} ${tbd()}</h3>
+  <div class="tw"><table><thead><tr><th>${T("項目","Item")}</th>${th}</tr></thead><tbody><tr><td>${T("技術論壇（Day 1）","Forum (Day 1)")}</td>${C.feeStages.map((s,i)=>`<td class="num${i===k?" cur":""}">NTD ${s.forum.toLocaleString()}</td>`).join("")}</tr></tbody></table></div></section>
+  <section class="card" style="display:grid;gap:16px"><h3>${T("費用試算","Fee calculator")}</h3>
+   <div class="frow">
+    <div class="field"><label for="fcCat">${T("身分","Category")}</label><select id="fcCat">${C.feeCats.map((c,i)=>`<option value="${i}">${L(c)}</option>`).join("")}</select></div>
+    <div class="field"><label for="fcWhat">${T("報名項目","What")}</label><select id="fcWhat"><option value="conf">${T("學術研討會（Day 2）","Conference")}</option><option value="forum">${T("技術論壇（Day 1）","Forum")}</option><option value="both">${T("兩日都參加","Both days")}</option></select></div>
+    <div class="field"><label for="fcDate">${T("預計匯款日期","Payment date")}</label><input type="date" id="fcDate" value="${iso(todayD())}"></div>
+   </div><div class="feebox" id="fcOut" aria-live="polite"></div></section>
+  <section style="display:grid;gap:14px"><h3>${T("報名流程","How to register")}</h3>
+  <ol class="steps"><li>${T("在「線上投稿／報名」選擇報名模式並送出","Submit the online form")}</li><li>${T("收到確認信（含編號與驗證碼）","Receive your ID and code by email")}</li><li>${T("完成匯款","Pay the fee")}</li><li>${T("登入「稿件與匯款管理」回報末 5 碼","Report the last 5 digits")}</li><li>${T("收到繳費確認信，完成報名","Receive payment confirmation")}</li></ol></section>
+  <div class="grid2"><div class="card"><h3>${T("匯款資訊","Bank details")}</h3><dl class="kv" style="margin-top:12px">${C.bank.map(([a,b])=>`<dt>${a}</dt><dd class="mono">${b}</dd><span></span>`).join("")}</dl></div>
+  <div class="card prose"><h3>${T("注意事項","Notes")}</h3><ul><li>${T("每篇論文至少須有 1 人註冊。","At least one registration per paper.")}</li><li>${T("學生身分需上傳學生證明。","Students must upload proof of status.")}</li><li>${C.refund}</li><li>${T("未盡事宜以現場公告為主，大會保留最終解釋權。","The organizers reserve the right of final interpretation.")}</li></ul><div class="cta" style="margin-top:4px"><a class="btn primary" href="#submit">${T("前往報名","Register now")}</a></div></div></div>`;
+};
+function updateCalc(){
+  const o=document.getElementById("fcOut"); if(!o) return;
+  const cat=+document.getElementById("fcCat").value, w=document.getElementById("fcWhat").value, d=document.getElementById("fcDate").value||iso(todayD());
+  const r=calcFee(cat,w!=="forum",w!=="conf",d);
+  o.innerHTML=`<span class="note">${T("應繳","Total")}</span><b>${money(r.cur,r.amount)}</b><span class="note">${r.stage}${r.amount==null?"":"・"+T("依匯款日期","by payment date")}</span>`;
+}
+
+/* ---------- submission & manage ---------- */
+const MODES={paper:{zh:"論文投稿",en:"Submit a paper"},forum:{zh:"只報名技術論壇（Day 1）",en:"Forum only (Day 1)"},conf:{zh:"只報名學術研討會（不投稿）",en:"Conference only (no paper)"},both:{zh:"兩日報名（不投稿）",en:"Both days (no paper)"}};
+const TYPES={oral:{zh:"一般論文發表 (Oral)",en:"Oral paper"},student:{zh:"學生論文競賽 (Oral Competition)",en:"Student competition"},poster:{zh:"海報發表 (Poster)",en:"Poster"}};
+const demoNote=()=>C.apiUrl?"":`<div class="banner info">${T("展示模式：尚未連接後端，資料只會暫存在這個頁面，不會真的送出或寄信。試用帳號：demo@example.com／驗證碼 12345。","Demo mode: not connected to the backend. Try demo@example.com / code 12345.")}</div>`;
+V.submit=()=>`${head("Submission",T("線上投稿與報名","Online submission & registration"),T("送出後系統會寄出確認信，信中有編號與 5 位數驗證碼，之後用來修改稿件與回報匯款。","You'll receive an ID and a 5-digit code by email for later revisions and payment reports."))}
+${demoNote()}
+${tabs("sub",[
+ [{zh:"線上投稿／報名",en:"Submit / register"},()=>`<form class="form card" id="subForm" novalidate>
+  <div class="field"><span class="lbl req">${T("報名模式","Registration type")}</span><div class="seg">${Object.entries(MODES).map(([k,v],i)=>`<label><input type="radio" name="mode" value="${k}" ${i===0?"checked":""}><span>${L(v)}</span></label>`).join("")}</div></div>
+  <div class="frow" data-paper>
+   <div class="field"><label class="req" for="sType">${T("發表形式","Presentation")}</label><select id="sType" name="type"><option value="">${T("請選擇","Select")}</option>${Object.entries(TYPES).map(([k,v])=>`<option value="${k}">${L(v)}</option>`).join("")}</select></div>
+   <div class="field"><label class="req" for="sField">${T("投稿領域","Area")}</label><select id="sField" name="field"><option value="">${T("請選擇","Select")}</option>${C.topics.map(g=>`<option value="${g.key}">${L(g.area)}</option>`).join("")}</select></div>
+  </div>
+  <div class="field" data-paper><label class="req" for="sTitle">${T("論文題目","Paper title")}</label><input id="sTitle" name="title"></div>
+  <div class="frow">
+   <div class="field"><label class="req" for="sAuthor"><span data-paper>${T("發表作者","Presenting author")}</span><span data-nopaper hidden>${T("姓名","Name")}</span></label><input id="sAuthor" name="author" autocomplete="name"></div>
+   <div class="field"><label class="req" for="sAff">${T("單位／學校","Affiliation")}</label><input id="sAff" name="affiliation" autocomplete="organization"></div>
+  </div>
+  <div class="frow">
+   <div class="field"><label class="req" for="sEmail">Email</label><input id="sEmail" name="email" type="email" autocomplete="email"><span class="hint">${T("確認信與驗證碼會寄到這裡","Your ID and code will be sent here")}</span></div>
+   <div class="field"><span class="lbl req">${T("身分","Status")}</span><div class="seg"><label><input type="radio" name="identity" value="general" checked>${T("一般人士","General")}</label><label><input type="radio" name="identity" value="student">${T("學生","Student")}</label></div></div>
+  </div>
+  <div class="field" data-student hidden><label class="req" for="sProof">${T("學生證明","Student proof")}</label><input id="sProof" name="proof" type="file" accept=".pdf,.png,.jpg,.jpeg"><span class="hint">PDF／PNG／JPG，≤10 MB</span></div>
+  <label data-paper style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="withForum">${T("同時報名技術論壇（加計論壇註冊費）","Also register for the forum (adds forum fee)")}</label>
+  <div class="frow" data-paper>
+   <div class="field"><label for="sCorr">${T("通訊作者（指導教授）","Corresponding author")}</label><input id="sCorr" name="corrAuthor"></div>
+   <div class="field"><label for="sCorrE">${T("通訊作者 Email","Corresponding email")}</label><input id="sCorrE" name="corrEmail" type="email"></div>
+  </div>
+  <div class="field" data-paper><label class="req" for="sAbs">${T("摘要簡述","Abstract")}</label><textarea id="sAbs" name="abstract"></textarea><span class="hint counter" id="absCount"></span></div>
+  <div class="field" data-paper><label class="req" for="sKw">${T("關鍵字","Keywords")}</label><input id="sKw" name="keywords" placeholder="${T("以逗號分隔","comma-separated")}"></div>
+  <div class="field" data-paper><label class="req" for="sPdf">${T("論文摘要 PDF","Abstract PDF")}</label><input id="sPdf" name="pdf" type="file" accept=".pdf"><span class="hint">${T("請依範本製作，PDF，≤10 MB","Use the template, PDF ≤10 MB")}</span></div>
+  <div class="feebox" id="subFee" aria-live="polite"></div>
+  <div id="subMsg" aria-live="polite"></div>
+  <div><button class="btn primary" type="submit" id="subBtn">${T("確認送出","Submit")}</button></div>
+ </form>`],
+ [{zh:"稿件與匯款管理",en:"Manage submission"},()=>`<form class="form card" id="verForm" novalidate><h3>${T("驗證身分","Sign in")}</h3><p class="note">${T("請使用確認信中的 Email 與驗證碼。","Use the email and code from your confirmation.")}</p>
+   <div class="frow"><div class="field"><label class="req" for="vEmail">Email</label><input id="vEmail" type="email" autocomplete="email"></div><div class="field"><label class="req" for="vCode">${T("驗證碼","Code")}</label><input id="vCode" inputmode="numeric" maxlength="5" class="mono"></div></div>
+   <div id="verMsg" aria-live="polite"></div><div><button class="btn primary" type="submit">${T("驗證並載入","Verify")}</button></div></form>
+   <div id="manageArea"></div>`]
+])}`;
+
+function statusPill(v){const m={"審核通過":"ok","已繳費":"ok","待確認":"warn","審核未通過":"bad","未繳費":"bad"};return v?`<span class="pill ${m[v]||""}">${v}</span>`:"";}
+function readFile(f){return new Promise((res,rej)=>{if(f.size>10*1024*1024)return rej(new Error(T("檔案超過 10 MB","File exceeds 10 MB")));const r=new FileReader();r.onload=()=>res({name:f.name,mime:f.type||"application/octet-stream",data:String(r.result).split(",")[1]});r.onerror=()=>rej(new Error("read error"));r.readAsDataURL(f);});}
+const showMsg=(id,ok,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div class="msg ${ok?"ok":"err"}">${html}</div>`;};
+
+function initSubmit(){
+  const f=document.getElementById("subForm"); if(!f) return;
+  const sync=()=>{
+    const mode=f.elements.mode.value, paper=mode==="paper", stu=f.elements.identity.value==="student";
+    f.querySelectorAll("[data-paper]").forEach(e=>e.hidden=!paper);
+    f.querySelectorAll("[data-nopaper]").forEach(e=>e.hidden=paper);
+    f.querySelector("[data-student]").hidden=!stu;
+    const conf=mode!=="forum", forum=mode==="forum"||mode==="both"||(paper&&f.elements.withForum.checked);
+    const r=calcFee(stu?1:0,conf,forum,iso(todayD()));
+    document.getElementById("subFee").innerHTML=`<span class="note">${T("目前應繳","Fee if paid today")}</span><b>${money(r.cur,r.amount)}</b><span class="note">${r.stage}・${T("實際以匯款日期為準","final amount follows payment date")}</span>`;
+    const a=f.elements.abstract.value, cjk=/[㐀-鿿]/.test(a), n=cjk?a.replace(/\s/g,"").length:(a.trim()?a.trim().split(/\s+/).length:0), lim=cjk?500:1000;
+    const c=document.getElementById("absCount"); c.textContent=`${n} / ${lim} ${cjk?T("字","chars"):T("詞","words")}`; c.classList.toggle("over",n>lim);
+  };
+  f.addEventListener("input",sync); f.addEventListener("change",sync); sync();
+  f.addEventListener("submit",async e=>{
+    e.preventDefault(); const btn=document.getElementById("subBtn");
+    const mode=f.elements.mode.value, paper=mode==="paper";
+    const p={action:"submit",mode,identity:f.elements.identity.value,author:f.elements.author.value.trim(),affiliation:f.elements.affiliation.value.trim(),email:f.elements.email.value.trim()};
+    if(paper) Object.assign(p,{type:f.elements.type.value,field:f.elements.field.value,title:f.elements.title.value.trim(),withForum:f.elements.withForum.checked,corrAuthor:f.elements.corrAuthor.value.trim(),corrEmail:f.elements.corrEmail.value.trim(),abstract:f.elements.abstract.value.trim(),keywords:f.elements.keywords.value.trim()});
+    const miss=[];
+    if(!p.author)miss.push(T("姓名","name"));if(!p.affiliation)miss.push(T("單位","affiliation"));if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email))miss.push("Email");
+    if(paper){if(!p.type)miss.push(T("發表形式","type"));if(!p.field)miss.push(T("領域","area"));if(!p.title)miss.push(T("題目","title"));if(!p.abstract)miss.push(T("摘要","abstract"));if(!p.keywords)miss.push(T("關鍵字","keywords"));if(!f.elements.pdf.files[0])miss.push("PDF");}
+    if(p.identity==="student"&&!f.elements.proof.files[0])miss.push(T("學生證明","student proof"));
+    if(miss.length) return showMsg("subMsg",false,T("請補齊：","Please complete: ")+miss.join("、"));
+    btn.disabled=true; btn.textContent=T("送出中…","Submitting…");
+    try{
+      if(paper){const pdf=f.elements.pdf.files[0]; if(pdf.type!=="application/pdf") throw new Error(T("論文檔案需為 PDF","Paper must be a PDF")); p.pdf=await readFile(pdf);}
+      if(p.identity==="student") p.proof=await readFile(f.elements.proof.files[0]);
+      const r=await api(p); if(!r.ok) throw new Error(r.error);
+      showMsg("subMsg",true,`<b>${T("送出成功","Submitted")}</b>　${T("編號","ID")} <span class="mono">${r.id}</span>・${T("應繳","Fee")} NTD ${r.fee.amount.toLocaleString()}（${r.fee.stage}）<br><span class="note">${r.demoCode?T(`展示模式驗證碼：${r.demoCode}`,`Demo code: ${r.demoCode}`):T("確認信與驗證碼已寄到你的 Email，沒收到請檢查垃圾郵件匣。","Check your inbox (and spam) for the code.")}</span>`);
+      f.reset(); sync();
+    }catch(err){showMsg("subMsg",false,esc(err.message));}
+    finally{btn.disabled=false;btn.textContent=T("確認送出","Submit");}
+  });
+}
+function initManage(){
+  const v=document.getElementById("verForm"); if(!v) return;
+  v.addEventListener("submit",async e=>{e.preventDefault();
+    try{const r=await api({action:"verify",email:vEmail.value.trim(),code:vCode.value.trim()}); if(!r.ok) throw new Error(r.error);
+      document.getElementById("verMsg").innerHTML=""; renderManage(r.record,vEmail.value.trim(),vCode.value.trim());}
+    catch(err){showMsg("verMsg",false,esc(err.message));}
+  });
+}
+function renderManage(rec,email,code){
+  const area=document.getElementById("manageArea"); const paper=rec.mode===MODES.paper.zh;
+  area.innerHTML=`<div class="card" style="display:grid;gap:10px;margin-top:20px"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="mono" style="font-size:1.2rem">${esc(rec.id)}</span>${statusPill(rec.review)}${statusPill(rec.payment)}</div>
+   <p class="note">${esc(rec.mode)}${rec.type?"・"+esc(rec.type):""}・${T("應繳","Fee")} NTD ${Number(rec.fee).toLocaleString()}（${esc(rec.stage)}）${rec.last5?`・${T("已回報末 5 碼","Reported")} ${esc(rec.last5)}`:""}</p></div>
+  <div class="grid2" style="margin-top:20px;align-items:start">
+   ${paper?`<form class="form card" id="updForm" novalidate><h3>${T("修改稿件","Revise paper")}</h3>
+    <div class="field"><label class="req">${T("論文題目","Title")}</label><input name="title" value="${esc(rec.title)}"></div>
+    <div class="field"><label class="req">${T("發表作者","Author")}</label><input name="author" value="${esc(rec.author)}"></div>
+    <div class="frow"><div class="field"><label>${T("通訊作者","Corresponding")}</label><input name="corrAuthor" value="${esc(rec.corrAuthor)}"></div><div class="field"><label>${T("通訊作者 Email","Corr. email")}</label><input name="corrEmail" value="${esc(rec.corrEmail)}"></div></div>
+    <div class="field"><label class="req">${T("摘要","Abstract")}</label><textarea name="abstract">${esc(rec.abstract)}</textarea></div>
+    <div class="field"><label class="req">${T("關鍵字","Keywords")}</label><input name="keywords" value="${esc(rec.keywords)}"></div>
+    <div class="field"><label>${T("重新上傳 PDF（選填）","Replace PDF (optional)")}</label><input name="pdf" type="file" accept=".pdf"><span class="hint">${T("目前版本","Current version")} v${esc(rec.version||1)}</span></div>
+    <div id="updMsg"></div><div><button class="btn primary" type="submit">${T("確認更新","Update")}</button></div></form>`:`<div class="card note">${T("此筆為報名資料，沒有稿件可修改。","Registration only — nothing to revise.")}</div>`}
+   <form class="form card" id="payForm" novalidate><h3>${T("匯款資料回報","Report payment")}</h3>
+    <div class="frow"><div class="field"><label class="req">${T("轉帳末 5 碼","Last 5 digits")}</label><input name="last5" inputmode="numeric" maxlength="5" class="mono"><span class="hint">${T("使用台灣 Pay 者請填實際轉帳帳戶末 5 碼","Use your real account digits")}</span></div>
+    <div class="field"><label class="req">${T("轉帳日期","Date")}</label><input name="date" type="date" value="${iso(todayD())}"></div></div>
+    <div class="field"><label>${T("匯款備註","Note")}</label><input name="note"></div>
+    <div class="field"><span class="lbl">${T("是否需要收據","Receipt")}</span><div class="seg"><label><input type="radio" name="receipt" value="no" checked>${T("不需要","No")}</label><label><input type="radio" name="receipt" value="yes">${T("需要","Yes")}</label></div></div>
+    <div class="frow" data-receipt hidden><div class="field"><label class="req">${T("收據抬頭","Receipt title")}</label><input name="receiptTitle"></div><div class="field"><label>${T("統一編號","Tax ID")}</label><input name="taxId" class="mono"></div></div>
+    <div class="field"><label>${T("匯款證明（選填）","Proof (optional)")}</label><input name="proof" type="file" accept=".pdf,.png,.jpg,.jpeg"></div>
+    <div id="payMsg"></div><div><button class="btn primary" type="submit" ${rec.payment==="已繳費"?"disabled":""}>${rec.payment==="已繳費"?T("已確認繳費","Payment confirmed"):T("送出匯款資料","Send")}</button></div></form>
+  </div>`;
+  const pf=document.getElementById("payForm");
+  pf.addEventListener("change",()=>pf.querySelector("[data-receipt]").hidden=pf.elements.receipt.value!=="yes");
+  pf.addEventListener("submit",async e=>{e.preventDefault();
+    try{ if(!/^\d{5}$/.test(pf.elements.last5.value)) throw new Error(T("末 5 碼需為 5 位數字","Enter 5 digits"));
+      if(pf.elements.receipt.value==="yes"&&!pf.elements.receiptTitle.value.trim()) throw new Error(T("請填寫收據抬頭","Enter receipt title"));
+      const p={action:"payment",email,code,last5:pf.elements.last5.value,date:pf.elements.date.value,note:pf.elements.note.value,receipt:pf.elements.receipt.value,receiptTitle:pf.elements.receiptTitle.value,taxId:pf.elements.taxId.value};
+      if(pf.elements.proof.files[0]) p.proof=await readFile(pf.elements.proof.files[0]);
+      const r=await api(p); if(!r.ok) throw new Error(r.error); renderManage(r.record,email,code); showMsg("payMsg",true,T("已送出，工作人員確認後會寄出通知信。","Sent. You'll be notified once confirmed."));
+    }catch(err){showMsg("payMsg",false,esc(err.message));}
+  });
+  const uf=document.getElementById("updForm");
+  if(uf) uf.addEventListener("submit",async e=>{e.preventDefault();
+    try{const p={action:"update",email,code,title:uf.elements.title.value,author:uf.elements.author.value,corrAuthor:uf.elements.corrAuthor.value,corrEmail:uf.elements.corrEmail.value,abstract:uf.elements.abstract.value,keywords:uf.elements.keywords.value};
+      if(uf.elements.pdf.files[0]){if(uf.elements.pdf.files[0].type!=="application/pdf")throw new Error("PDF only");p.pdf=await readFile(uf.elements.pdf.files[0]);}
+      const r=await api(p); if(!r.ok) throw new Error(r.error); renderManage(r.record,email,code); showMsg("updMsg",true,T("稿件已更新。","Updated."));
+    }catch(err){showMsg("updMsg",false,esc(err.message));}
+  });
+}
+
+V.faq=()=>`${head("FAQ",T("常見問題","Frequently asked questions"))}
+<div class="toolbar"><input type="search" id="faqSearch" placeholder="${T("搜尋問題","Search questions")}" aria-label="search"></div>
+<div class="faq" style="display:grid;gap:28px">${C.faq.map(g=>`<section class="faq-cat"><h3 style="margin-bottom:10px">${L(g.cat)}</h3><div class="list">${g.items.map(([q,a])=>`<details data-search="${esc((q+" "+a).toLowerCase())}"><summary>${q}</summary><div><p>${a}</p></div></details>`).join("")}</div></section>`).join("")}</div>
+<p class="note">${T("沒有找到答案？請到「聯絡與贊助」頁聯絡大會。","Can't find it? Contact us.")}</p>`;
+
+V.venue=()=>`${head("Travel, stay & venue",T("交通、住宿與會場","Travel, stay & venue"))}
+<section class="grid2"><div class="card prose"><dl class="kv"><dt>${T("會場","Venue")}</dt><dd>${L(C.venue)}<br><span class="note">${C.venueDetail}</span></dd><span></span><dt>${T("地址","Address")}</dt><dd>${L(C.address)}</dd><span></span><dt>${T("晚宴","Banquet")}</dt><dd>${C.banquet}</dd><span></span></dl><div class="cta" style="margin-top:4px"><a class="btn" href="${C.mapsUrl}" target="_blank" rel="noopener">${T("在 Google 地圖開啟","Open in Google Maps")}</a></div></div>${ph(T("會場外觀照片","Venue photo"),"（建議 1200×800）")}</section>
+<section style="display:grid;gap:14px"><h3>${T("會場位置","Location")}</h3>
+ <div class="mapbox"><p class="note">${T("地圖載入中；若沒有顯示，請按下方按鈕開啟 Google 地圖。","Loading map. If it doesn't appear, use the button below.")}</p><iframe title="${T("會場位置地圖","Venue map")}" src="https://www.google.com/maps?q=${encodeURIComponent(C.mapQuery)}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+ <div class="cta" style="margin-top:0"><a class="btn primary" href="${C.mapsUrl}" target="_blank" rel="noopener">${T("在 Google 地圖開啟","Open in Google Maps")}</a><a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(C.mapQuery)}" target="_blank" rel="noopener">${T("規劃路線","Get directions")}</a></div></section>
+<section style="display:grid;gap:14px"><h3>${T("會場樓層配置","Floor plan")}</h3><p class="note">${T("實際動線與教室安排以會前公告為準。","Final room assignments will be announced.")}</p>
+ <div>${C.floors.map(([f,d,r])=>`<div class="floor"><b>${f}</b><div>${d}<div class="rooms">${r.map(x=>`<span>${x}</span>`).join("")}</div></div></div>`).join("")}</div>
+ <div class="grid2">${ph(T("樓層平面圖","Floor plan"),"（建議 1600×1000）")}${ph(T("校園地圖","Campus map"),"（建議 1600×1000）")}</div></section>
+<section style="display:grid;gap:14px"><h3>${T("交通資訊","Getting there")}</h3><div class="grid3">${C.transport.map(([h,d,chk])=>`<div class="card"><h3>${L(h)}</h3><p class="note">${L(d)}</p>${chk?`<p style="margin-top:6px"><span class="tag tbd">${T("步行時間待確認","walk time TBC")}</span></p>`:""}</div>`).join("")}</div></section>
+<section style="display:grid;gap:14px"><h3>${T("建議住宿","Hotels")}</h3><div class="tw"><table><thead><tr><th>${T("名稱","Hotel")}</th><th>${T("距離","Distance")}</th><th>${T("備註","Notes")}</th></tr></thead><tbody>${C.hotels.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table></div><p class="note">${T("實際房價與空房以各飯店公告為準。","Rates subject to each hotel.")}</p></section>
+<section style="display:grid;gap:14px"><h3>${T("台南旅遊","Around Tainan")}</h3><div class="grid4">${C.sights.map(([z,e,d])=>`<div class="card" style="display:grid;gap:10px">${ph(T("景點照片","Photo"))}<h3>${T(z,e)}</h3><p class="note">${d}</p></div>`).join("")}</div></section>`;
+
+V.h2car=()=>`${head("Student H₂ car contest",T("全國學生盃氫能車競賽","Student Hydrogen Car Contest"))}
+<div class="banner">${T("本屆是否舉辦尚未確定。","Whether this contest runs in 2027 is not yet decided.")}</div>
+${tabs("car",[
+ [{zh:"競賽規則",en:"Rules"},()=>`<div class="card prose"><ul>${C.h2car.rules.map(x=>`<li>${x}</li>`).join("")}</ul></div>`],
+ [{zh:"參賽報名",en:"Entry"},()=>`<div class="card prose"><p>${T("報名截止","Deadline")}：${C.h2car.deadline}</p><div class="dl">${linkBtn(C.links.h2carRegister,T("參賽報名","Enter"),true)}</div></div>`],
+ [{zh:"競賽議程",en:"Schedule"},()=>`<div class="card prose"><p>${C.h2car.schedule}</p></div>`]
+])}`;
+
+V.contact=()=>`${head("Contact & sponsorship",T("聯絡與贊助","Contact & sponsorship"))}
+<div class="grid2">${C.contacts.map((c,ci)=>`<div class="card rv"><span class="eyebrow">${L(c.role)}</span><h3 style="margin-top:6px">${c.name}</h3><dl class="kv" style="margin-top:10px"><dt>Email</dt><dd id="ce${ci}">${c.email}</dd><button class="copy" data-copy="ce${ci}">${T("複製","Copy")}</button><dt>${T("電話","Phone")}</dt><dd id="cp${ci}" class="mono">${c.phone}</dd><button class="copy" data-copy="cp${ci}">${T("複製","Copy")}</button></dl></div>`).join("")}</div>
+<section style="display:grid;gap:16px"><h3>${T("參展與贊助方案","Sponsorship packages")} ${tbd()}</h3>
+<div class="grid3">${C.packages.map(([n,d,p])=>`<div class="card rv"><span class="eyebrow">${L(n)}</span><p class="mono" style="font-size:1.2rem;margin-top:6px">${p}</p><p class="note" style="margin-top:6px">${d}</p></div>`).join("")}</div>
+<div class="tw"><table><tbody>${C.booth.map(([a,b])=>`<tr><th style="width:160px">${a}</th><td>${b}</td></tr>`).join("")}</tbody></table></div>
+<div class="dl">${linkBtn(C.links.sponsorForm,T("下載贊助辦法與申請表","Sponsorship form"),true)}</div></section>
+<section style="display:grid;gap:16px"><h3>${T("贊助夥伴","Sponsors")}</h3>${marquee()}</section>`;
+
+/* ---------- staff ---------- */
+let staff={token:"",mode:"review",q:"",filter:"all",page:1,rows:[],dirty:{},sheetUrl:""};
+V.staff=()=>`${head("Staff",T("工作人員入口","Staff portal"),T("內部作業使用：審稿管理與繳費確認。狀態改為「已繳費」或審稿結果時，系統會自動寄信通知。","Internal use."))}
+${C.apiUrl?"":`<div class="banner info">${T("展示模式密碼：demo","Demo password: demo")}</div>`}
+<div id="staffArea"></div>`;
+function renderStaff(){
+  const a=document.getElementById("staffArea"); if(!a) return;
+  if(!staff.token){a.innerHTML=`<form class="form card" id="stLogin" style="max-width:420px"><div class="field"><label for="stKey">${T("工作人員密碼","Staff password")}</label><input id="stKey" type="password" autocomplete="current-password"></div><div id="stMsg"></div><div><button class="btn primary" type="submit">${T("登入","Sign in")}</button></div></form>`;
+    document.getElementById("stLogin").addEventListener("submit",async e=>{e.preventDefault();try{const r=await api({action:"staffLogin",key:stKey.value});if(!r.ok)throw new Error(r.error);staff.token=r.token;staff.sheetUrl=r.sheetUrl||"";loadStaff();}catch(err){showMsg("stMsg",false,esc(err.message));}});return;}
+  const s=staff.stats||{}, rv=staff.mode==="review";
+  const filters={all:T("全部","All"),oral:"Oral",student:T("學生競賽","Student"),poster:"Poster",forum:T("只報論壇","Forum"),conf:T("只報研討會","Conf"),both:T("兩日","Both")};
+  a.innerHTML=`<div style="display:grid;gap:18px">
+  <div class="stats"><div><span class="note">${T("總數","Total")}</span><b>${s.total??0}</b></div><div><span class="note">${T("已審稿","Reviewed")}</span><b>${s.reviewDone??0}</b></div><div><span class="note">${T("待確認匯款","Pending")}</span><b style="color:var(--warn)">${s.pending??0}</b></div><div><span class="note">${T("已繳費","Paid")}</span><b style="color:var(--ok)">${s.paid??0}</b></div></div>
+  <div class="toolbar"><div class="tabs" style="border:0"><button aria-selected="${rv}" data-smode="review">${T("審稿管理","Review")}</button><button aria-selected="${!rv}" data-smode="payment">${T("繳費管理","Payments")}</button></div>
+   <input type="search" id="stQ" value="${esc(staff.q)}" placeholder="${T("搜尋編號、姓名、Email、題目、末5碼","Search")}"><select id="stF" style="width:auto">${Object.entries(filters).map(([k,v])=>`<option value="${k}" ${staff.filter===k?"selected":""}>${v}</option>`).join("")}</select>
+   <button class="btn small" id="stGo">${T("搜尋","Search")}</button><button class="btn small" id="stSave" ${Object.keys(staff.dirty).length?"":"disabled"}>${T("儲存變更","Save changes")}（${Object.keys(staff.dirty).length}）</button>
+   ${staff.sheetUrl?`<a class="btn small" href="${staff.sheetUrl}" target="_blank" rel="noopener">${T("開啟試算表","Open sheet")}</a>`:""}<button class="btn small" id="stOut">${T("登出","Sign out")}</button></div>
+  <div id="stMsg"></div>
+  <div class="tw"><table class="staff"><thead><tr><th>${T("編號","ID")}</th><th>${T("姓名／單位","Name")}</th>${rv?`<th>${T("題目","Title")}</th><th>${T("檔案","Files")}</th><th>${T("審稿狀態","Review")}</th>`:`<th>${T("應繳","Fee")}</th><th>${T("末5碼／日期","Payment")}</th><th>${T("收據","Receipt")}</th><th>${T("繳費狀態","Status")}</th>`}<th>${T("備註","Note")}</th></tr></thead>
+  <tbody>${staff.rows.length?staff.rows.map(r=>{const d=staff.dirty[r.id]||{};return `<tr class="${staff.dirty[r.id]?"dirty":""}"><td class="mono">${esc(r.id)}<br><span class="note">${esc(r.type||r.mode)}</span></td><td>${esc(r.author)}<br><span class="note">${esc(r.affiliation)}・${esc(r.email)}・${esc(r.identity)}</span></td>
+   ${rv?`<td>${esc(r.title)||"—"}</td><td>${r.pdf?`<a href="${esc(r.pdf)}" target="_blank" rel="noopener">PDF v${esc(r.version)}</a>`:"—"}${r.proof?`<br><a href="${esc(r.proof)}" target="_blank" rel="noopener">${T("學生證明","Proof")}</a>`:""}</td><td>${r.review?`<select data-edit="${esc(r.id)}" data-k="review">${["尚未審核","審核通過","審核未通過"].map(o=>`<option ${(d.review??r.review)===o?"selected":""}>${o}</option>`).join("")}</select>`:"—"}</td>`
+       :`<td class="mono">${Number(r.fee).toLocaleString()}<br><span class="note">${esc(r.stage)}</span></td><td class="mono">${esc(r.last5)||"—"}<br><span class="note">${esc(r.payDate)}</span>${r.payProof?`<br><a href="${esc(r.payProof)}" target="_blank" rel="noopener">${T("證明","Proof")}</a>`:""}</td><td>${r.receipt==="是"?`${esc(r.receiptTitle)}<br><span class="note mono">${esc(r.taxId)}</span>`:"—"}</td><td><select data-edit="${esc(r.id)}" data-k="payment">${["未繳費","待確認","已繳費"].map(o=>`<option ${(d.payment??r.payment)===o?"selected":""}>${o}</option>`).join("")}</select></td>`}
+   <td><input data-edit="${esc(r.id)}" data-k="note" value="${esc(d.note??r.note??"")}"></td></tr>`}).join(""):`<tr><td colspan="7" class="note">${T("沒有符合的資料","No records")}</td></tr>`}</tbody></table></div>
+  <div class="toolbar"><button class="btn small" id="stPrev" ${staff.page<=1?"disabled":""}>${T("上一頁","Prev")}</button><span class="mono note">${staff.page} / ${staff.pages||1}</span><button class="btn small" id="stNext" ${staff.page>=(staff.pages||1)?"disabled":""}>${T("下一頁","Next")}</button></div></div>`;
+  a.querySelectorAll("[data-smode]").forEach(b=>b.onclick=()=>{staff.mode=b.dataset.smode;renderStaff();});
+  const go=()=>{staff.q=stQ.value;staff.filter=stF.value;staff.page=1;loadStaff();};
+  stGo.onclick=go; stQ.onkeydown=e=>{if(e.key==="Enter")go();};
+  stPrev.onclick=()=>{staff.page--;loadStaff();}; stNext.onclick=()=>{staff.page++;loadStaff();};
+  stOut.onclick=()=>{staff={...staff,token:"",rows:[],dirty:{}};renderStaff();};
+  a.querySelectorAll("[data-edit]").forEach(el=>el.onchange=()=>{(staff.dirty[el.dataset.edit] ||= {})[el.dataset.k]=el.value;renderStaff();});
+  stSave.onclick=async()=>{try{const changes=Object.entries(staff.dirty).map(([id,c])=>({id,...c}));const r=await api({action:"staffUpdate",token:staff.token,changes});if(!r.ok)throw new Error(r.error);staff.dirty={};await loadStaff();showMsg("stMsg",true,T(`已更新 ${r.updated} 筆`,`${r.updated} updated`));}catch(err){showMsg("stMsg",false,esc(err.message));}};
+}
+async function loadStaff(){
+  try{const r=await api({action:"staffList",token:staff.token,q:staff.q,filter:staff.filter,page:staff.page});if(!r.ok)throw new Error(r.error);Object.assign(staff,{rows:r.rows,page:r.page,pages:r.pages,stats:r.stats});renderStaff();}
+  catch(err){if(/登入/.test(err.message))staff.token="";renderStaff();showMsg("stMsg",false,esc(err.message));}
+}
+
+/* ---------- API (real or demo) ---------- */
+async function api(p){
+  if(!C.apiUrl) return demoApi(p);
+  const r=await fetch(C.apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});
+  return r.json();
+}
+const demo={rows:[
+  {id:"GP01-001",mode:"論文投稿",type:"一般論文發表",title:"示範論文題目",author:"王小明",affiliation:"示範大學",email:"demo@example.com",code:"12345",identity:"一般",corrAuthor:"",corrEmail:"",abstract:"示範摘要。",keywords:"水素, 燃料電池",version:1,fee:4200,stage:"早鳥",review:"尚未審核",payment:"未繳費",last5:"",pdf:"#",note:""},
+  {id:"SC02-001",mode:"論文投稿",type:"學生論文競賽",title:"示範學生論文",author:"陳小華",affiliation:"示範大學",email:"student@example.com",code:"54321",identity:"學生",abstract:"",keywords:"",version:2,fee:5500,stage:"早鳥",review:"審核通過",payment:"待確認",last5:"67890",payDate:"2027-04-02",receipt:"是",receiptTitle:"示範大學",taxId:"12345678",pdf:"#",proof:"#",note:""},
+  {id:"FR-001",mode:"只報名技術論壇（Day 1）",type:"",title:"",author:"林大同",affiliation:"示範公司",email:"forum@example.com",code:"11111",identity:"一般",fee:2000,stage:"早鳥",review:"",payment:"已繳費",last5:"24680",payDate:"2027-03-20",receipt:"否",note:""}
+]};
+async function demoApi(p){
+  await new Promise(r=>setTimeout(r,350));
+  const find=()=>demo.rows.find(r=>r.email===String(p.email).toLowerCase()&&r.code===String(p.code));
+  const typeKey=r=>({"一般論文發表":"oral","學生論文競賽":"student","海報發表":"poster"})[r.type]||({"只報名技術論壇（Day 1）":"forum","只報名學術研討會（不投稿）":"conf","兩日報名（不投稿）":"both"})[r.mode];
+  switch(p.action){
+    case "submit":{const key=p.mode==="paper"?p.type:p.mode, pre={oral:"GP",student:"SC",poster:"PO",forum:"FR",conf:"CF",both:"BD"}[key];
+      const id=pre+(p.field?("0"+p.field).slice(-2):"")+"-"+String(demo.rows.filter(r=>r.id.startsWith(pre)).length+1).padStart(3,"0");
+      const code=String(10000+Math.floor(Math.random()*90000)); const fee=calcFee(p.identity==="student"?1:0,p.mode!=="forum",p.mode==="forum"||p.mode==="both"||(p.mode==="paper"&&p.withForum),iso(todayD()));
+      demo.rows.push({id,code,mode:MODES[p.mode].zh,type:p.type?TYPES[p.type].zh.split(" (")[0]:"",title:p.title||"",author:p.author,affiliation:p.affiliation,email:p.email.toLowerCase(),identity:p.identity==="student"?"學生":"一般",corrAuthor:p.corrAuthor||"",corrEmail:p.corrEmail||"",abstract:p.abstract||"",keywords:p.keywords||"",version:p.pdf?1:"",fee:fee.amount,stage:fee.stage,review:p.mode==="paper"?"尚未審核":"",payment:"未繳費",last5:"",pdf:p.pdf?"#":"",note:""});
+      return {ok:true,id,fee:{amount:fee.amount,stage:fee.stage},demoCode:code};}
+    case "verify":{const r=find();return r?{ok:true,record:{...r}}:{ok:false,error:T("Email 或驗證碼不正確","Wrong email or code")};}
+    case "update":{const r=find();if(!r)return{ok:false,error:"auth"};Object.assign(r,{title:p.title,author:p.author,corrAuthor:p.corrAuthor,corrEmail:p.corrEmail,abstract:p.abstract,keywords:p.keywords});if(p.pdf)r.version=(+r.version||1)+1;return{ok:true,record:{...r}};}
+    case "payment":{const r=find();if(!r)return{ok:false,error:"auth"};if(r.payment==="已繳費")return{ok:false,error:T("此筆已確認繳費","Already confirmed")};Object.assign(r,{last5:p.last5,payDate:p.date,receipt:p.receipt==="yes"?"是":"否",receiptTitle:p.receiptTitle,taxId:p.taxId,payment:"待確認"});return{ok:true,record:{...r}};}
+    case "staffLogin":return p.key==="demo"?{ok:true,token:"demo",sheetUrl:""}:{ok:false,error:T("密碼錯誤","Wrong password")};
+    case "staffList":{const q=(p.q||"").toLowerCase();const list=demo.rows.filter(r=>(p.filter==="all"||typeKey(r)===p.filter)&&(!q||[r.id,r.title,r.author,r.email,r.affiliation,r.last5].join(" ").toLowerCase().includes(q)));
+      return{ok:true,rows:list.map(r=>({...r})),page:1,pages:1,stats:{total:list.length,reviewDone:list.filter(r=>r.review&&r.review!=="尚未審核").length,paid:list.filter(r=>r.payment==="已繳費").length,pending:list.filter(r=>r.payment==="待確認").length}};}
+    case "staffUpdate":{let n=0;p.changes.forEach(c=>{const r=demo.rows.find(x=>x.id===c.id);if(r){Object.assign(r,c);n++;}});return{ok:true,updated:n};}
+  }
+  return {ok:false,error:"unknown"};
+}
+
+/* ---------- render ---------- */
+const NAV=[["home",{zh:"首頁",en:"Home"}],["info",{zh:"會議資訊",en:"About"}],["agenda",{zh:"議程",en:"Program"}],["speakers",{zh:"大會講者",en:"Speakers"}],["cfp",{zh:"徵稿",en:"Papers"}],["register",{zh:"註冊費用",en:"Fees"}],["submit",{zh:"線上投稿",en:"Submit"}],["faq",{zh:"FAQ",en:"FAQ"}],["venue",{zh:"交通住宿",en:"Travel"}],["h2car",{zh:"氫能車",en:"H₂ Car"}],["contact",{zh:"聯絡贊助",en:"Contact"}]].filter(v=>v[0]!=="h2car"||C.showH2Car);
+const validView=h=>!!(V[h]&&(h!=="h2car"||C.showH2Car));
+let route=(()=>{let h="";try{h=location.hash.slice(1);}catch(e){}return validView(h)?h:"home";})();
+function current(){return route;}
+/* 頁面切換：不依賴網址 #，嵌在 Google Sites 或預覽視窗裡也能正常切換 */
+function go(view){
+  if(!validView(view)) view="home";
+  route=view; render(); window.scrollTo(0,0);
+  document.getElementById("nav").classList.remove("open");
+  try{history.replaceState(null,"","#"+view);}catch(e){}
+}
+function render(){
+  timers.forEach(clearInterval); timers=[]; cancelAnimationFrame(rafId);
+  document.documentElement.lang=lang==="en"?"en":"zh-Hant";
+  const cur=current();
+  document.getElementById("nav").innerHTML=NAV.map(([k,n])=>`<a href="#${k}" ${k===cur?'aria-current="page"':""}>${L(n)}</a>`).join("");
+  document.getElementById("langBtn").textContent=lang==="en"?"中文":"EN";
+  document.getElementById("menuBtn").textContent=T("選單","Menu");
+  document.getElementById("hero").innerHTML=cur==="home"?hero():"";
+  document.getElementById("app").innerHTML=`<div class="view">${V[cur]()}</div>`;
+  document.getElementById("foot").innerHTML=`<div class="foot-org"><div><b>EVENT</b><span>${L(C.title)}</span><br>${C.title.en}</div><div><b>ORGANIZER</b><span>${C.organizers[1].items.join("、")}</span></div><div><b>HOST</b><span>${C.organizers[2].items.join("、")}</span></div></div>
+   <div>${T("往屆網站","Past editions")}：${C.pastSites.map(([y,u])=>`<a href="${u}" target="_blank" rel="noopener">${y}</a>`).join("　")}　｜　<a href="#staff">${T("工作人員入口","Staff portal")}</a></div><div class="mono">© ${C.year} ${C.short}</div>`;
+  if(cur==="home"){startBubbles();startCountdown();}
+  if(cur==="register"){["fcCat","fcWhat","fcDate"].forEach(id=>document.getElementById(id).addEventListener("input",updateCalc));updateCalc();}
+  if(cur==="submit"){initSubmit();initManage();}
+  if(cur==="staff") renderStaff();
+  if(cur==="agenda") initAgenda();
+  if(cur==="faq") document.getElementById("faqSearch").addEventListener("input",e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll(".faq details").forEach(d=>{const hit=!q||d.dataset.search.includes(q);d.hidden=!hit;if(q&&hit)d.open=true;});});
+  const io=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.1}):null;
+  if(io) document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+  markTodos();
+}
+function markTodos(){
+  let n=0;
+  ["hero","app","foot"].forEach(id=>{const root=document.getElementById(id);if(!root)return;
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:t=>t.nodeValue.includes("〔待填〕")&&!t.parentElement.closest("mark,script,style,textarea,option")?1:2});
+    const list=[];while(w.nextNode())list.push(w.currentNode);
+    list.forEach(t=>{const frag=document.createDocumentFragment();t.nodeValue.split("〔待填〕").forEach((part,i)=>{if(i){const m=document.createElement("mark");m.className="todo";m.textContent=T("待填","TODO");frag.appendChild(m);n++;}if(part)frag.appendChild(document.createTextNode(part));});t.replaceWith(frag);});
+  });
+  const pill=document.getElementById("todoPill");pill.hidden=!n;pill.textContent=T(`本頁還有 ${n} 處待填`,`${n} items to fill on this page`);
+}
+function initAgenda(){
+  const s=document.getElementById("agSearch"), m=document.getElementById("mineOnly");
+  const apply=()=>{const q=s.value.toLowerCase().trim(), only=m.getAttribute("aria-pressed")==="true", mine=store.get("hefc-mine",[]);
+    document.querySelectorAll("#agWrap [data-search]").forEach(r=>{r.hidden=!((!q||r.dataset.search.includes(q))&&(!only||(r.dataset.paper&&mine.includes(r.dataset.paper))||(!r.dataset.paper&&!only)));});};
+  s.addEventListener("input",apply); m.onclick=()=>{m.setAttribute("aria-pressed",m.getAttribute("aria-pressed")!=="true");apply();};
+}
+window.addEventListener("hashchange",()=>{let h="";try{h=location.hash.slice(1);}catch(e){} if(validView(h)&&h!==route) go(h);});
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-tabs]");
+  if(t){const id=t.dataset.tabs,i=+t.dataset.i;tabState[id]=i;const g=t.closest(".tabgroup");
+    g.querySelectorAll(`:scope > .tabs [data-tabs="${id}"]`).forEach(b=>b.setAttribute("aria-selected",+b.dataset.i===i));
+    g.querySelectorAll(`:scope > [data-panel="${id}"]`).forEach(p=>p.hidden=+p.dataset.i!==i);return;}
+  const n=e.target.closest("[data-news]"); if(n){tabState.news=n.dataset.news;render();document.getElementById("news")?.scrollIntoView();return;}
+  const j=e.target.closest("[data-jump]"); if(j){e.preventDefault();if(current()!=="home")go("home");setTimeout(()=>document.getElementById(j.dataset.jump)?.scrollIntoView({behavior:"smooth"}),50);return;}
+  const a=e.target.closest('a[href^="#"]'); if(a){const h=a.getAttribute("href").slice(1); e.preventDefault(); if(validView(h)) go(h); else if(h) document.getElementById(h)?.scrollIntoView({behavior:"smooth"}); return;}
+  const st=e.target.closest("[data-star]"); if(st){const id=st.dataset.star;let mine=store.get("hefc-mine",[]);mine=mine.includes(id)?mine.filter(x=>x!==id):[...mine,id];store.set("hefc-mine",mine);document.querySelectorAll(`[data-star="${id}"]`).forEach(b=>b.setAttribute("aria-pressed",mine.includes(id)));return;}
+  const c=e.target.closest("[data-copy]"); if(c){const el=document.getElementById(c.dataset.copy);const done=()=>{c.textContent=T("已複製","Copied");setTimeout(()=>c.textContent=T("複製","Copy"),1500);};
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);};
+    try{navigator.clipboard.writeText(el.textContent).then(done).catch(sel);}catch(err){sel();}}
+});
+document.getElementById("langBtn").onclick=()=>{lang=lang==="en"?"zh":"en";store.set("hefc-lang",lang);render();};
+document.getElementById("menuBtn").onclick=e=>{const nav=document.getElementById("nav");const o=nav.classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",o);};
+render();
+</script>
