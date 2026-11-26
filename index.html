@@ -749,9 +749,9 @@ const CONFIG = {
   },
   dates: [
     {label:{zh:"早鳥註冊", en:"Early-bird registration"}, start:"2027-01-15", end:"2027-04-15"},
-    {label:{zh:"摘要投稿截止", en:"Abstract submission deadline"}, start:"2027-02-28", deadline:true},
-    {label:{zh:"學生論文競賽投稿截止", en:"Student paper competition deadline"}, start:"2027-03-15", deadline:true},
-    {label:{zh:"錄取通知", en:"Notification of acceptance"}, start:"2027-03-28"},
+    {label:{zh:"摘要投稿截止", en:"Abstract submission deadline"}, start:"2027-02-01", deadline:true},
+    {label:{zh:"學生論文競賽投稿截止", en:"Student paper competition deadline"}, start:"2027-02-15", deadline:true},
+    {label:{zh:"錄取通知", en:"Notification of acceptance"}, start:"2027-02-20"},
     {
       label: {zh:"一般註冊（線上報名截止）", en:"Regular registration (online closes)"},
       start: "2027-04-16",
@@ -911,7 +911,7 @@ const CONFIG = {
     ["文宣與攤位組", "林哲愷、Rusdan Aditya Aji Nugroho、陳穎星 Danny", "旗幟、大會手冊、名牌、紀念品、餐點、攤位與海報架"],
     ["報名與金流組", "何侑霖 Jack、Taqi Arrafi", "註冊費、贊助方案與線上付款"],
     ["交通與住宿組", "Do Hoang Son、Nguyen Viet Thang、Muhammad Azmi", "交通、簽證與住宿資訊"],
-    ["晚宴組", "陳穎星 Danny", "歡迎晚宴與大會晚宴"],
+    ["晚宴組", "陳穎星 Danny", "大會晚宴與 VIP 晚宴"],
     ["財務組", "Pan、蔡欣凌 Cinny", "經費規劃與核銷"]
   ],
   members: [
@@ -956,8 +956,8 @@ const CONFIG = {
   agenda: [
     {
       day: "2027-06-17",
-      name: {zh:"報到", en:"Registration"},
-      items: [["17:00", "20:00", "break", {zh:"報到", en:"Registration"}, ""]]
+      name: {zh:"報到與歡迎茶會", en:"Registration & reception"},
+      items: [["13:00", "17:00", "social", {zh:"報到／歡迎茶會", en:"Registration / Welcome reception"}, ""]]
     },
     {
       day: "2027-06-18",
@@ -970,11 +970,11 @@ const CONFIG = {
         ["10:40", "12:00", "keynote", {zh:"主題演講 2–3", en:"Keynotes 2–3"}, ""],
         ["12:00", "13:00", "break", {zh:"午餐", en:"Lunch"}, ""],
         ["13:00", "14:20", "keynote", {zh:"主題演講 4–5", en:"Keynotes 4–5"}, ""],
-        ["13:00", "14:20", "paper", {zh:"學生論文競賽", en:"Student competition"}, ""],
+        ["13:00", "14:20", "paper", {zh:"學生論文競賽（一）", en:"Student competition 1"}, ""],
         ["14:20", "14:40", "break", {zh:"茶敘交流", en:"Tea break & networking"}, ""],
         ["14:40", "17:00", "keynote", {zh:"主題演講 6–8", en:"Keynotes 6–8"}, ""],
-        ["14:40", "17:00", "paper", {zh:"學生論文競賽", en:"Student competition"}, ""],
-        ["17:30", "21:00", "social", {zh:"歡迎晚宴", en:"Welcome dinner"}, "水鳥和洋創作料理"]
+        ["14:40", "17:00", "paper", {zh:"學生論文競賽（二）", en:"Student competition 2"}, ""],
+        ["17:30", "21:00", "social", {zh:"大會晚宴", en:"Banquet"}, ""]
       ]
     },
     {
@@ -990,11 +990,15 @@ const CONFIG = {
         ["10:30", "12:00", "paper", {zh:"口頭發表", en:"Oral presentations"}, ""],
         ["12:00", "13:00", "break", {zh:"午餐", en:"Lunch"}, ""],
         ["13:00", "15:00", "forum", {zh:"產業演講 3", en:"Industrial talk 3"}, ""],
-        ["13:00", "15:00", "paper", {zh:"口頭發表・海報發表・學生論文競賽", en:"Oral · Posters · Student competition"}, ""],
+        ["13:00", "15:00", "paper", {zh:"口頭發表", en:"Oral presentations"}, ""],
+        ["13:00", "15:00", "paper", {zh:"海報發表", en:"Poster session"}, ""],
+        ["13:00", "15:00", "paper", {zh:"學生論文競賽", en:"Student competition"}, ""],
         ["15:00", "15:20", "break", {zh:"茶敘交流", en:"Tea break & networking"}, ""],
         ["15:20", "17:00", "forum", {zh:"產業演講 4", en:"Industrial talk 4"}, ""],
-        ["15:20", "17:00", "paper", {zh:"口頭發表・海報發表・學生論文競賽", en:"Oral · Posters · Student competition"}, ""],
-        ["17:30", "21:00", "social", {zh:"大會晚宴", en:"Banquet"}, "台南遠東香格里拉（會場對面）"]
+        ["15:20", "17:00", "paper", {zh:"口頭發表", en:"Oral presentations"}, ""],
+        ["15:20", "17:00", "paper", {zh:"海報發表", en:"Poster session"}, ""],
+        ["15:20", "17:00", "paper", {zh:"學生論文競賽", en:"Student competition"}, ""],
+        ["17:30", "21:00", "social", {zh:"VIP 晚宴（受邀貴賓）", en:"VIP dinner (by invitation)"}, ""]
       ]
     },
     {
@@ -1029,18 +1033,39 @@ const CONFIG = {
     {zh:"一般人士（學研／業界）", en:"Domestic"},
     {zh:"學生（需附證明）", en:"Domestic student"},
     {zh:"國際一般", en:"International"},
-    {zh:"國際學生", en:"International student"}
+    {zh:"國際學生", en:"International student"},
+    {zh:"產業論壇／其他", en:"Industrial forum / Other"}
   ],
-  feeCur: ["NTD", "NTD", "USD", "USD"],
+  feeCur: ["NTD", "NTD", "USD", "USD", "NTD"],
   feeStages: [
-    {name:{zh:"早鳥報名", en:"Early bird"}, start:"2027-01-15", end:"2027-04-15", conf:[4300, 3600, 200, 150]},
-    {name:{zh:"一般報名", en:"Regular"}, start:"2027-04-16", end:"2027-06-16", conf:[5000, 4000, 230, 180]}
+    {
+      name: {zh:"早鳥報名", en:"Early bird"},
+      start: "2027-01-15",
+      end: "2027-04-15",
+      conf: [4300, 3600, 200, 150, 5000],
+      iop: [3200, 2400, 30, 50, 3200]
+    },
+    {
+      name: {zh:"一般報名", en:"Regular"},
+      start: "2027-04-16",
+      end: "2027-06-16",
+      conf: [5000, 4000, 230, 180, 6000],
+      iop: [3000, 2500, 20, 50, 3000]
+    },
+    {
+      name: {zh:"現場報名", en:"On-site"},
+      start: "2027-06-17",
+      end: "2027-06-20",
+      onsite: true,
+      conf: [5500, 4500, 250, 200, 7000],
+      iop: [3500, 3000, 30, 50, 3500]
+    }
   ],
   addons: [
-    {key:"poster", name:{zh:"海報競賽", en:"Poster competition"}, fee:[500, 20]},
-    {key:"oral", name:{zh:"一般論文發表", en:"Oral paper"}, fee:[500, 20]},
-    {key:"student", name:{zh:"學生論文競賽", en:"Student paper competition"}, fee:[500, 20]},
-    {key:"iop", name:{zh:"IOP 會議論文集出版", en:"IOP proceedings publication"}, fee:[2000, 80]}
+    {key:"poster", name:{zh:"海報競賽", en:"Poster competition"}, fee:[0, 0]},
+    {key:"oral", name:{zh:"一般論文發表", en:"Oral paper"}, fee:[0, 0]},
+    {key:"student", name:{zh:"學生論文競賽", en:"Student paper competition"}, fee:[0, 0]},
+    {key:"iop", name:{zh:"IOP 會議論文集出版", en:"IOP proceedings publication"}, fee:"stage"}
   ],
   bank: [["銀行／郵局", "〔待填〕"], ["分行", "〔待填〕"], ["代號", "〔待填〕"], ["帳號", "〔待填〕"], ["戶名", "〔待填〕"]],
   refund: "〔待填〕取消與退費規定",
@@ -1203,7 +1228,7 @@ const CONFIG = {
     [
       "台南遠東香格里拉 Shangri-La's Far Eastern 5★",
       "會場對面，約 0.5–0.8 km，步行 7–12 分鐘",
-      "大會晚宴地點；1 人 NT$3,300–5,000／2 人 NT$3,500–5,500"
+      "1 人 NT$3,300–5,000／2 人 NT$3,500–5,500"
     ],
     ["成大會館 Academy Hotel 3★", "成大勝利校區內，步行 2–5 分鐘", "1 人 NT$4,510–4,950／2 人 NT$5,390"],
     ["台南大飯店 Hotel Tainan 4★", "0.8–1.1 km，步行 11–15 分鐘", "1 人 NT$2,300–2,600／2 人 NT$2,800–3,100"],
@@ -1335,7 +1360,7 @@ function tabs(id,list){
 }
 
 /* ---------- fees ---------- */
-function stageIndex(dateStr){const i=C.feeStages.findIndex(s=>dateStr<=s.end);return i<0?C.feeStages.length-1:i;}
+function stageIndex(dateStr){const on=C.feeStages.map((s,i)=>[s,i]).filter(([s])=>!s.onsite);const f=on.find(([s])=>dateStr<=s.end);return (f||on[on.length-1])[1];}
 function calcFee(cat,conf,forum,dateStr,iop){
   const k=stageIndex(dateStr), s=C.feeStages[k], cur=C.feeCur[cat];
   if(forum && cat>1) return {stage:L(s.name),cur,amount:null};
@@ -1546,15 +1571,17 @@ const CUR_SYM=c=>c==="USD"?"US$":"NT$";
 const amt=(cur,n)=>`${CUR_SYM(cur)} ${Number(n).toLocaleString()}`;
 const ADDON=k=>C.addons.find(a=>a.key===k);
 const PAPER_ADDONS=["oral","student"];
+const addonFee=(a,s,cat)=>a.fee==="stage"?((s.iop||[])[cat]||0):(a.fee[curIdx(cat)]||0);
+const amtF=(cur,n)=>Number(n)===0?T("免費","Free"):amt(cur,n);
 function curStage(){ return stageIndex(iso(todayD())); }
 function calcReg(cat,picked){
   const k=curStage(), s=C.feeStages[k], cur=C.feeCur[cat], ci=curIdx(cat);
   const items=[{name:T("基本註冊費","Registration"),amount:s.conf[cat]}];
-  C.addons.forEach(a=>{ if(picked.includes(a.key)) items.push({name:L(a.name),amount:a.fee[ci],key:a.key}); });
+  C.addons.forEach(a=>{ if(picked.includes(a.key)) items.push({name:L(a.name),amount:addonFee(a,s,cat),key:a.key}); });
   return {k,stage:L(s.name),stageEnd:s.end,cur,items,total:items.reduce((t,i)=>t+i.amount,0)};
 }
 function feeBreakdown(r,noNote){
-  return `<div style="display:grid;gap:4px;width:100%">${r.items.map(i=>`<div style="display:flex;justify-content:space-between;gap:12px"><span>${esc(i.name)}</span><span class="mono">${amt(r.cur,i.amount)}</span></div>`).join("")}
+  return `<div style="display:grid;gap:4px;width:100%">${r.items.map(i=>`<div style="display:flex;justify-content:space-between;gap:12px"><span>${esc(i.name)}</span><span class="mono">${amtF(r.cur,i.amount)}</span></div>`).join("")}
   <div style="display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:6px;margin-top:2px"><b>${T("總計","Total")}</b><b class="mono" style="font-size:1.3rem;color:var(--accent)">${amt(r.cur,r.total)}</b></div>
   ${noNote?"":`<span class="note">${T(`目前為「${r.stage}」費率（依報名當天自動判斷）`,`${r.stage} rate (based on today's date)`)}</span>`}</div>`;
 }
@@ -1563,12 +1590,14 @@ const bankCard=()=>`<div class="card"><h3>${T("匯款資訊","Bank details")}</h
 
 V.register=()=>{
   const k=curStage();
-  const th=C.feeStages.map((s,i)=>`<th class="num">${L(s.name)}<br><span class="mono note" style="font-weight:400">${fd(s.start,true)}–${fd(s.end,true)}</span>${i===k?`<br><span class="tag now">${T("目前","Now")}</span>`:""}</th>`).join("");
+  const th=C.feeStages.map((s,i)=>`<th class="num">${L(s.name)}<br><span class="mono note" style="font-weight:400">${fd(s.start,true)}–${fd(s.end,true)}</span>${i===k?`<br><span class="tag now">${T("目前","Now")}</span>`:""}${s.onsite?`<br><span class="note" style="font-weight:400">${T("僅限現場，供參考","On-site only, for reference")}</span>`:""}</th>`).join("");
   return `${head("Registration",T("研討會註冊","Registration"),T("系統依報名當天日期自動判斷早鳥或一般費率；身分決定以新台幣或美金計價。金額屬暫定。","Early-bird or regular rates are applied automatically by date; your category sets the currency. Provisional amounts."))}
   <section style="display:grid;gap:12px"><h3>${T("基本註冊費","Registration fee")} ${tbd()}</h3>
   <div class="tw"><table><thead><tr><th>${T("身分","Category")}</th>${th}</tr></thead><tbody>${C.feeCats.map((c,ci)=>`<tr><td>${L(c)}</td>${C.feeStages.map((s,i)=>`<td class="num${i===k?" cur":""}">${amt(C.feeCur[ci],s.conf[ci])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>
   <section style="display:grid;gap:12px"><h3>${T("加選項目（可複選）","Add-ons (choose any)")} ${tbd()}</h3>
-  <div class="tw"><table><thead><tr><th>${T("項目","Item")}</th><th class="num">${T("國內（新台幣）","Domestic (NTD)")}</th><th class="num">${T("國際（美金）","International (USD)")}</th></tr></thead><tbody>${C.addons.map(a=>`<tr><td>${L(a.name)}${a.key==="iop"?`<br><span class="note">${T("須同時勾選一般論文或學生論文競賽","Requires an oral paper or student competition entry")}</span>`:""}</td><td class="num">+ ${amt("NTD",a.fee[0])}</td><td class="num">+ ${amt("USD",a.fee[1])}</td></tr>`).join("")}</tbody></table></div></section>
+  <p>${C.addons.filter(a=>a.fee!=="stage").map(a=>`<span class="tag">${L(a.name)}・${T("免費","Free")}</span>`).join(" ")}</p>
+  <p class="note">${T("發表論文、海報或參加學生論文競賽不另收費，報名時勾選並填寫題目即可。只有 IOP 會議論文集出版需加價（須同時勾選一般論文或學生論文競賽）：","Presenting a paper or poster, or entering the student competition, is free — just tick it and enter the title. Only IOP proceedings publication costs extra (requires an oral paper or student competition entry):")}</p>
+  <div class="tw"><table><thead><tr><th>${T("IOP 出版加價","IOP surcharge")}</th>${th}</tr></thead><tbody>${C.feeCats.map((c,ci)=>`<tr><td>${L(c)}</td>${C.feeStages.map((s,i)=>`<td class="num${i===k?" cur":""}">+ ${amt(C.feeCur[ci],(s.iop||[])[ci]||0)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>
   <section class="card" style="display:grid;gap:16px"><h3>${T("費用試算","Fee calculator")}</h3>
    <div class="field"><label for="fcCat">${T("身分","Category")}</label><select id="fcCat">${C.feeCats.map((c,i)=>`<option value="${i}">${L(c)}</option>`).join("")}</select></div>
    <div class="field"><span class="lbl">${T("加選項目","Add-ons")}</span><div class="seg">${C.addons.map(a=>`<label><input type="checkbox" class="fcAdd" value="${a.key}"><span>${L(a.name)}</span></label>`).join("")}</div></div>
@@ -1588,8 +1617,8 @@ function updateCalc(){
 }
 
 /* ---------- 線上報名 ---------- */
-const IDN=[{v:"general",zh:"國內一般",en:"Domestic"},{v:"student",zh:"國內學生",en:"Domestic student"},{v:"intl",zh:"國際一般（USD）",en:"International (USD)"},{v:"intlStudent",zh:"國際學生（USD）",en:"International student (USD)"}];
-const IDX={general:0,student:1,intl:2,intlStudent:3};
+const IDN=[{v:"general",zh:"國內一般",en:"Domestic"},{v:"student",zh:"國內學生",en:"Domestic student"},{v:"intl",zh:"國際一般（USD）",en:"International (USD)"},{v:"intlStudent",zh:"國際學生（USD）",en:"International student (USD)"},{v:"industry",zh:"產業論壇／其他",en:"Industrial forum / Other"}];
+const IDX={general:0,student:1,intl:2,intlStudent:3,industry:4};
 const demoNote=()=>C.apiUrl?"":`<div class="banner info">${T("展示模式：尚未連接後端，資料只會暫存在這個頁面，不會真的送出或寄信。","Demo mode: not connected to the backend; nothing is sent.")}</div>`;
 V.submit=()=>`${head("Registration",T("線上報名","Online registration"),T("論文請先到 Microsoft CMT 投稿，本頁是大會報名。送出後會取得報名流水號並收到確認信，匯款時請在備註欄填寫流水號。","Submit papers on Microsoft CMT first; this page is for registration. You will get a registration number and a confirmation email — put the number in your bank-transfer remarks."))}
 <div class="banner info"><b>${T("要投稿論文？","Submitting a paper?")}</b> ${T("論文一律透過 Microsoft CMT 投稿，請見","All papers are submitted via Microsoft CMT — see")} <a href="#cfp">${T("徵稿與投稿","Call for papers")}</a>。</div>
@@ -1673,7 +1702,7 @@ function initSubmit(){
     const idn=f.elements.identity.value, cat=IDX[idn]??0, ci=curIdx(cat), stu=idn==="student"||idn==="intlStudent";
     const paper=picked().some(k=>PAPER_ADDONS.includes(k));
     const iop=f.querySelector("input[name=addon][value=iop]"); if(iop){iop.disabled=!paper; if(!paper) iop.checked=false;}
-    f.querySelectorAll("[data-addfee]").forEach(el=>{const a=ADDON(el.dataset.addfee); el.textContent="+ "+amt(C.feeCur[cat],a.fee[ci]);});
+    f.querySelectorAll("[data-addfee]").forEach(el=>{const a=ADDON(el.dataset.addfee), n=addonFee(a,C.feeStages[curStage()],cat); el.textContent=n?"+ "+amt(C.feeCur[cat],n):T("免費","Free");});
     f.querySelectorAll("[data-show]").forEach(el=>el.hidden=!picked().includes(el.dataset.show));
     const intl=idn==="intl"||idn==="intlStudent", ph=document.getElementById("sPhone"), phh=document.getElementById("sPhoneHint");
     f.querySelectorAll("[data-intl]").forEach(el=>el.hidden=!intl);
@@ -1837,7 +1866,7 @@ function renderStaff(){
   a.innerHTML=`<div style="display:grid;gap:18px">
   <div class="stats"><div><span class="note">${T("報名總數","Total")}</span><b>${s.total??0}</b></div><div><span class="note">${T("需處理","Needs attention")}</span><b style="color:var(--bad)">${s.issue??0}</b></div><div><span class="note">${T("待核對","To verify")}</span><b style="color:var(--warn)">${s.review??0}</b></div><div><span class="note">${T("未繳費","Unpaid")}</span><b>${s.unpaid??0}</b></div><div><span class="note">${T("已繳費","Paid")}</span><b style="color:var(--ok)">${s.paid??0}</b></div><div><span class="note">${T("已收 NTD","Received NTD")}</span><b>${Number(s.ntd??0).toLocaleString()}</b></div><div><span class="note">${T("已收 USD","Received USD")}</span><b>${Number(s.usd??0).toLocaleString()}</b></div></div>
   <details class="card" style="padding:14px 18px;margin:0"><summary><b>${T("餐點統計","Meal counts")}</b>（${T("已交表單","forms received")} ${s.answered??0} ${T("人","")}）</summary>
-   <div class="stats" style="margin-top:12px"><div><span class="note">6/18 ${T("午餐","lunch")}</span><b>${m.l18??0}</b></div><div><span class="note">6/19 ${T("午餐","lunch")}</span><b>${m.l19??0}</b></div><div><span class="note">6/18 ${T("歡迎晚宴","welcome dinner")}</span><b>${m.d18??0}</b></div><div><span class="note">6/19 ${T("大會晚宴","banquet")}</span><b>${m.d19??0}</b></div></div>
+   <div class="stats" style="margin-top:12px"><div><span class="note">6/18 ${T("午餐","lunch")}</span><b>${m.l18??0}</b></div><div><span class="note">6/19 ${T("午餐","lunch")}</span><b>${m.l19??0}</b></div><div><span class="note">6/18 ${T("大會晚宴","banquet")}</span><b>${m.d18??0}</b></div><div><span class="note">6/19 ${T("VIP 晚宴","VIP dinner")}</span><b>${m.d19??0}</b></div></div>
    <p class="note" style="margin-top:10px">${T("飲食","Diet")}：${Object.entries(diet).map(([k,v])=>`${esc(k)} ${v}`).join("・")||"—"}${T("。人數只算有交表單的人，過敏與「其他」細節請看每一列或試算表。","")}</p></details>
   <div class="toolbar"><input type="search" id="stQ" value="${esc(staff.q)}" placeholder="${T("搜尋流水號、姓名、Email、單位、題目、末5碼","Search number, name, email…")}"><select id="stF" style="width:auto">${Object.entries(filters).map(([k,v])=>`<option value="${k}" ${staff.filter===k?"selected":""}>${v}</option>`).join("")}</select>
    <button class="btn small" id="stGo">${T("搜尋","Search")}</button><button class="btn small" id="stSave" ${Object.keys(staff.dirty).length?"":"disabled"}>${T("儲存變更","Save changes")}（${Object.keys(staff.dirty).length}）</button>
@@ -1887,7 +1916,7 @@ const demo={seq:3,rows:[
 ]};
 async function demoApi(p){
   await new Promise(r=>setTimeout(r,300));
-  const IDZ={general:"國內一般",student:"國內學生",intl:"國際一般",intlStudent:"國際學生"};
+  const IDZ={general:"國內一般",student:"國內學生",intl:"國際一般",intlStudent:"國際學生",industry:"產業論壇／其他"};
   switch(p.action){
     case "register":{
       const cat=IDX[p.identity]??0, r=calcReg(cat,p.addons||[]); const serial="HZ27-"+String(++demo.seq).padStart(4,"0");
